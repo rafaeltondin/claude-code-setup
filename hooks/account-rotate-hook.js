@@ -15,8 +15,9 @@ const fs      = require('fs');
 const path    = require('path');
 const https   = require('https');
 const { execSync } = require('child_process');
+const os      = require('os');
 
-const CLAUDE_DIR   = path.join(process.env.HOME || process.env.USERPROFILE, '.claude');
+const CLAUDE_DIR   = path.join(process.env.HOME || process.env.USERPROFILE || os.homedir(), '.claude');
 const ACCOUNTS_DIR = path.join(CLAUDE_DIR, 'accounts');
 const FLAG_FILE    = path.join(ACCOUNTS_DIR, 'rate-limited.flag');
 const ROTATE_JS    = path.join(ACCOUNTS_DIR, 'rotate.js');

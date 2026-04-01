@@ -1,8 +1,5 @@
 {
   "env": {
-    "GIT_CONFIG_COUNT": "1",
-    "GIT_CONFIG_KEY_0": "core.autocrlf",
-    "GIT_CONFIG_VALUE_0": "false",
     "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
   },
   "permissions": {
@@ -26,7 +23,6 @@
       "Skill",
       "Skill(auto)",
       "SlashCommand",
-      "Read(//C:/Users/USER/**)",
       "mcp__chrome-devtools__click",
       "mcp__chrome-devtools__close_page",
       "mcp__chrome-devtools__drag",
@@ -113,7 +109,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"C:\\Users\\USER\\.claude\\hooks\\account-rotate-hook.js\""
+            "command": "node \"$HOME/.claude/hooks/account-rotate-hook.js\""
           }
         ]
       },
@@ -121,7 +117,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"C:\\Users\\USER\\.claude\\hooks\\session-logger.js\""
+            "command": "node \"$HOME/.claude/hooks/session-logger.js\""
           }
         ]
       }
@@ -132,7 +128,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"C:\\Users\\USER\\.claude\\hooks\\sync-tasks-hook.js\""
+            "command": "node \"$HOME/.claude/hooks/sync-tasks-hook.js\""
           }
         ]
       },
@@ -144,7 +140,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"C:\\Users\\USER\\.claude\\hooks\\session-logger.js\""
+            "command": "node \"$HOME/.claude/hooks/session-logger.js\""
           }
         ]
       },
@@ -152,7 +148,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"C:\\Users\\USER\\.claude\\hooks\\error-monitor-hook.js\""
+            "command": "node \"$HOME/.claude/hooks/error-monitor-hook.js\""
           }
         ]
       },
@@ -161,7 +157,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"C:/Users/USER/.claude/hooks/gsd-context-monitor.js\"",
+            "command": "node \"$HOME/.claude/hooks/gsd-context-monitor.js\"",
             "timeout": 10
           }
         ]
@@ -172,7 +168,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"C:\\Users\\USER\\.claude\\hooks\\account-rotate-hook.js\""
+            "command": "node \"$HOME/.claude/hooks/account-rotate-hook.js\""
           }
         ]
       },
@@ -180,7 +176,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"C:\\Users\\USER\\.claude\\hooks\\telegram-notify-hook.js\""
+            "command": "node \"$HOME/.claude/hooks/telegram-notify-hook.js\""
           }
         ]
       },
@@ -188,7 +184,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"C:\\Users\\USER\\.claude\\hooks\\session-end-reminder.js\""
+            "command": "node \"$HOME/.claude/hooks/session-end-reminder.js\""
           }
         ]
       },
@@ -196,7 +192,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"C:\\Users\\USER\\.claude\\hooks\\session-logger.js\""
+            "command": "node \"$HOME/.claude/hooks/session-logger.js\""
           }
         ]
       }
@@ -206,7 +202,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"C:/Users/USER/.claude/hooks/gsd-check-update.js\""
+            "command": "node \"$HOME/.claude/hooks/gsd-check-update.js\""
           }
         ]
       }
@@ -217,7 +213,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"C:/Users/USER/.claude/hooks/gsd-prompt-guard.js\"",
+            "command": "node \"$HOME/.claude/hooks/gsd-prompt-guard.js\"",
             "timeout": 5
           }
         ]
@@ -226,7 +222,7 @@
   },
   "statusLine": {
     "type": "command",
-    "command": "node \"C:/Users/USER/.claude/hooks/gsd-statusline.js\""
+    "command": "node \"$HOME/.claude/hooks/gsd-statusline.js\""
   },
   "language": "portuguese-br",
   "skipDangerousModePermissionPrompt": true

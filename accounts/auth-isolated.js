@@ -19,7 +19,11 @@ const ACCOUNTS = [
   { num: '4', email: 'nortmarketingdigital@gmail.com', profile: 'Profile 26' },
 ];
 
-const CHROME_PATH = 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
+const CHROME_PATH = process.platform === 'darwin'
+  ? '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
+  : process.platform === 'win32'
+    ? 'C:\Program Files\Google\Chrome\Application\chrome.exe'
+    : '/usr/bin/google-chrome';
 
 function ensureDir(dir) {
   if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
@@ -33,10 +37,13 @@ function openChromeProfile(profile, url) {
   // Usar PowerShell Start-Process para evitar IE
   try {
     const args = `--profile-directory="${profile}"`;
-    execSync(
-      `powershell.exe -Command "Start-Process '${CHROME_PATH}' -ArgumentList '${args}','${url}'"`,
-      { stdio: 'ignore', timeout: 10000 }
-    );
+    if (process.platform === 'darwin') {
+      execSync(`open -a "Google Chrome" --args ${args} "${url}"`, { stdio: 'ignore', timeout: 10000 });
+    } else if (process.platform === 'win32') {
+      execSync(`powershell.exe -Command "Start-Process '${CHROME_PATH}' -ArgumentList '${args}','${url}'"`, { stdio: 'ignore', timeout: 10000 });
+    } else {
+      execSync(`"${CHROME_PATH}" ${args} "${url}"`, { stdio: 'ignore', timeout: 10000 });
+    }
     return true;
   } catch (err) {
     console.log(`  Erro ao abrir Chrome: ${err.message}`);

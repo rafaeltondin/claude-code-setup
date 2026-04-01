@@ -3,7 +3,7 @@
     "chrome-devtools": {
       "command": "node",
       "args": [
-        "~/.claude/src/integrations/chrome/chrome-mcp-launcher.js"
+        "$HOME/.claude/src/integrations/chrome/chrome-mcp-launcher.js"
       ]
     },
     "desktop-commander": {
@@ -48,7 +48,7 @@
       ]
     },
     "fetch": {
-      "command": "C:\\Users\\USER\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python312\\Scripts\\uvx.exe",
+      "command": "uvx",
       "args": [
         "mcp-server-fetch"
       ]
@@ -56,11 +56,11 @@
     "claude-ecosystem": {
       "command": "node",
       "args": [
-        "~/.claude/mcp-server/index.js"
+        "$HOME/.claude/mcp-server/index.js"
       ]
     },
     "codebase-memory": {
-      "command": "~/.local/bin/codebase-memory-mcp.exe",
+      "command": "codebase-memory-mcp",
       "args": []
     }
   }

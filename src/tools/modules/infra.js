@@ -342,7 +342,7 @@ const definitions = [
         type: 'object',
         properties: {
           action: { type: 'string', enum: ['upload', 'download'], description: 'upload: envia arquivo local para o servidor. download: baixa arquivo do servidor.' },
-          local_path: { type: 'string', description: 'Caminho local do arquivo. Ex: C:/Users/user/arquivo.txt' },
+          local_path: { type: 'string', description: 'Caminho local do arquivo. Ex: /home/user/arquivo.txt ou ~/arquivo.txt' },
           remote_path: { type: 'string', description: 'Caminho remoto no servidor. Ex: /var/www/html/arquivo.txt' },
           recursive: { type: 'boolean', description: 'Transferência recursiva de diretórios. Padrão: false.' }
         },
@@ -1456,11 +1456,20 @@ context / {
 
       if (action === 'list') {
         let psOutput = '';
+        const isWindows = process.platform === 'win32';
         try {
-          psOutput = execSync(
-            'powershell -Command "Get-Process ssh -ErrorAction SilentlyContinue | Select-Object Id,StartTime,CommandLine | Format-List"',
-            { encoding: 'utf8', timeout: 10000 }
-          ).trim();
+          if (isWindows) {
+            psOutput = execSync(
+              'powershell -Command "Get-Process ssh -ErrorAction SilentlyContinue | Select-Object Id,StartTime,CommandLine | Format-List"',
+              { encoding: 'utf8', timeout: 10000 }
+            ).trim();
+          } else {
+            // macOS e Linux: usar ps aux para listar processos SSH
+            psOutput = execSync(
+              'ps aux | grep ssh | grep -v grep',
+              { encoding: 'utf8', timeout: 10000 }
+            ).trim();
+          }
         } catch (_) {
           psOutput = '(nenhum processo SSH encontrado)';
         }
@@ -1474,7 +1483,11 @@ context / {
       if (action === 'kill') {
         if (!pid) return 'Parâmetro "pid" é obrigatório para action=kill';
         try {
-          execSync(`powershell -Command "Stop-Process -Id ${pid} -Force"`, { encoding: 'utf8', timeout: 10000 });
+          const isWindows = process.platform === 'win32';
+          const killCmd = isWindows
+            ? `powershell -Command "Stop-Process -Id ${pid} -Force"`
+            : `kill -9 ${pid}`;
+          execSync(killCmd, { encoding: 'utf8', timeout: 10000 });
           const tunnels = loadTunnels().filter(t => t.pid !== pid);
           saveTunnels(tunnels);
           return `[port_forward] Processo SSH PID ${pid} encerrado com sucesso.`;

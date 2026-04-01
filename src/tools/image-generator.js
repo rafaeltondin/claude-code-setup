@@ -4,7 +4,7 @@
  * Fluxo: HTML/CSS design → Chrome renderiza → screenshot PNG 1080x1080
  * Não requer API externa — usa o Chrome já aberto com debug.
  *
- * Salva imagens em: C:/Users/USER/.claude/temp/images/
+ * Salva imagens em: ~/.claude/temp/images/
  */
 
 const http = require('http');

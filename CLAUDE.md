@@ -136,7 +136,9 @@ Hook `error-monitor-hook.js` roda a cada PostToolUse. Erros salvos em `~/.claude
 
 ## PROTEÇÃO DE PROCESSOS NODE
 
-**NUNCA** `killall node` / `pkill node`. Identificar PID: `powershell "Get-Process node | Select Id,CommandLine"`
+**NUNCA** `killall node` / `pkill node`. Identificar PID:
+- macOS/Linux: `ps aux | grep node`
+- Windows: `powershell "Get-Process node | Select Id,CommandLine"`
 
 ---
 

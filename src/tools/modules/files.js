@@ -14,7 +14,7 @@ const definitions = [
       parameters: {
         type: 'object',
         properties: {
-          path: { type: 'string', description: 'Caminho absoluto do arquivo ou URL file://. Ex: C:/Users/USER/Desktop/proposta.html ou file:///C:/Users/USER/Desktop/proposta.html' },
+          path: { type: 'string', description: 'Caminho absoluto do arquivo ou URL file://. Ex: /home/user/Desktop/proposta.html ou ~/Desktop/proposta.html' },
           encoding: { type: 'string', enum: ['utf8', 'base64', 'hex'], description: 'Encoding para leitura. Padrão: utf8' },
           maxBytes: { type: 'number', description: 'Limite de bytes a ler (padrão: 50000). Use para arquivos grandes.' }
         },
@@ -30,7 +30,7 @@ const definitions = [
       parameters: {
         type: 'object',
         properties: {
-          path: { type: 'string', description: 'Caminho absoluto do arquivo. Ex: C:/Users/USER/Desktop/resultado.txt' },
+          path: { type: 'string', description: 'Caminho absoluto do arquivo. Ex: /home/user/Desktop/resultado.txt ou ~/Desktop/resultado.txt' },
           content: { type: 'string', description: 'Conteúdo a escrever no arquivo' },
           encoding: { type: 'string', enum: ['utf8', 'base64'], description: 'Encoding. Padrão: utf8' },
           append: { type: 'boolean', description: 'Se true, adiciona ao final do arquivo em vez de sobrescrever. Padrão: false' }
@@ -47,7 +47,7 @@ const definitions = [
       parameters: {
         type: 'object',
         properties: {
-          path: { type: 'string', description: 'Caminho absoluto do diretório. Ex: C:/Users/USER/Desktop' },
+          path: { type: 'string', description: 'Caminho absoluto do diretório. Ex: /home/user/Desktop ou ~/Desktop' },
           recursive: { type: 'boolean', description: 'Se true, lista recursivamente. Padrão: false' },
           filter: { type: 'string', description: 'Filtro de extensão. Ex: ".html" ou ".js" — filtra só arquivos com essa extensão' }
         },

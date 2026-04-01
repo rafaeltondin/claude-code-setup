@@ -38,6 +38,9 @@ function log(message, color = 'reset') {
  * Obtém o caminho da pasta Startup do Windows
  */
 function getStartupFolder() {
+  if (process.platform === 'darwin') {
+    return path.join(os.homedir(), 'Library', 'LaunchAgents');
+  }
   return path.join(os.homedir(), 'AppData', 'Roaming', 'Microsoft', 'Windows', 'Start Menu', 'Programs', 'Startup');
 }
 
@@ -46,6 +49,79 @@ function getStartupFolder() {
  */
 async function createStartupShortcut() {
   const startupFolder = getStartupFolder();
+
+  // macOS: criar LaunchAgent .plist
+  if (process.platform === 'darwin') {
+    const plistPath = path.join(startupFolder, 'com.' + APP_NAME + '.plist');
+    const startScript = path.join(BASE_DIR, 'start-all.sh');
+    const logsDir = path.join(BASE_DIR, 'logs');
+    const plistContent =
+      '<?xml version="1.0" encoding="UTF-8"?>
+' +
+      '<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+' +
+      '<plist version="1.0">
+' +
+      '<dict>
+' +
+      '  <key>Label</key>
+' +
+      '  <string>com.' + APP_NAME + '</string>
+' +
+      '  <key>ProgramArguments</key>
+' +
+      '  <array>
+' +
+      '    <string>/bin/sh</string>
+' +
+      '    <string>' + startScript + '</string>
+' +
+      '    <string>--no-browser</string>
+' +
+      '  </array>
+' +
+      '  <key>WorkingDirectory</key>
+' +
+      '  <string>' + BASE_DIR + '</string>
+' +
+      '  <key>RunAtLoad</key>
+' +
+      '  <true/>
+' +
+      '  <key>KeepAlive</key>
+' +
+      '  <false/>
+' +
+      '  <key>StandardOutPath</key>
+' +
+      '  <string>' + path.join(logsDir, 'autostart.log') + '</string>
+' +
+      '  <key>StandardErrorPath</key>
+' +
+      '  <string>' + path.join(logsDir, 'autostart-err.log') + '</string>
+' +
+      '</dict>
+' +
+      '</plist>';
+    try {
+      if (!fs.existsSync(startupFolder)) fs.mkdirSync(startupFolder, { recursive: true });
+      fs.writeFileSync(plistPath, plistContent, 'utf8');
+      const { exec } = require('child_process');
+      exec('launchctl load "' + plistPath + '"', (err) => {
+        if (err) log('   Aviso: launchctl load falhou: ' + err.message, 'yellow');
+      });
+      log('
+✅ LaunchAgent criado!', 'green');
+      log('   Caminho: ' + plistPath, 'cyan');
+      return true;
+    } catch (error) {
+      log('
+❌ Erro ao criar LaunchAgent: ' + error.message, 'red');
+      return false;
+    }
+  }
+
+  // Windows: criar VBS na pasta Startup
   const vbsPath = path.join(startupFolder, `${APP_NAME}.vbs`);
 
   // Script VBS que inicia o ecossistema completo em background (sem janela)
@@ -71,6 +147,30 @@ Set WshShell = Nothing
  * Remove o atalho da pasta Startup
  */
 function removeStartupShortcut() {
+  // macOS: remove LaunchAgent plist
+  if (process.platform === 'darwin') {
+    const plistPath = path.join(getStartupFolder(), 'com.' + APP_NAME + '.plist');
+    try {
+      if (fs.existsSync(plistPath)) {
+        const { exec } = require('child_process');
+        exec('launchctl unload "' + plistPath + '"', () => {});
+        fs.unlinkSync(plistPath);
+        log('
+✅ LaunchAgent removido!', 'green');
+        return true;
+      } else {
+        log('
+ℹ️  LaunchAgent não encontrado.', 'yellow');
+        return false;
+      }
+    } catch (error) {
+      log('
+❌ Erro ao remover LaunchAgent: ' + error.message, 'red');
+      return false;
+    }
+  }
+
+  // Windows
   const vbsPath = path.join(getStartupFolder(), `${APP_NAME}.vbs`);
 
   try {
@@ -240,13 +340,18 @@ function checkAutoStartStatus() {
     scheduledTask: false
   };
 
-  // Verificar VBS
-  const vbsPath = path.join(getStartupFolder(), `${APP_NAME}.vbs`);
-  results.startupVbs = fs.existsSync(vbsPath);
+  // Verificar VBS (Windows) ou LaunchAgent (macOS)
+  if (process.platform === 'darwin') {
+    const plistPath = path.join(getStartupFolder(), 'com.' + APP_NAME + '.plist');
+    results.startupVbs = fs.existsSync(plistPath);
+  } else {
+    const vbsPath = path.join(getStartupFolder(), APP_NAME + '.vbs');
+    results.startupVbs = fs.existsSync(vbsPath);
+  }
 
-  // Verificar BAT
-  const batPath = path.join(getStartupFolder(), `${APP_NAME}.bat`);
-  results.startupBat = fs.existsSync(batPath);
+  // Verificar BAT (Windows only)
+  const batPath = path.join(getStartupFolder(), APP_NAME + '.bat');
+  results.startupBat = process.platform !== 'darwin' && fs.existsSync(batPath);
 
   return results;
 }

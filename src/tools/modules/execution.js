@@ -19,7 +19,7 @@ ATENÇÃO: comandos destrutivos (rm -rf, format, drop) serão executados — con
         type: 'object',
         properties: {
           command: { type: 'string', description: 'Comando a executar. Ex: "npm install", "python script.py", "docker ps", "pip install requests"' },
-          cwd: { type: 'string', description: 'Diretório de trabalho. Ex: C:/Users/USER/Desktop/meu-projeto. Padrão: diretório do servidor.' },
+          cwd: { type: 'string', description: 'Diretório de trabalho. Ex: /home/user/meu-projeto ou ~/Desktop/meu-projeto. Padrão: diretório do servidor.' },
           timeout: { type: 'number', description: 'Timeout em segundos. Padrão: 30. Máximo: 300.' },
           shell: { type: 'string', enum: ['auto', 'bash', 'powershell', 'cmd'], description: 'Shell a usar. auto detecta automaticamente (bash no Linux, powershell no Windows). Padrão: auto' }
         },
@@ -70,7 +70,7 @@ ATENÇÃO: comandos destrutivos (rm -rf, format, drop) serão executados — con
       parameters: {
         type: 'object',
         properties: {
-          url: { type: 'string', description: 'URL ou caminho de arquivo a abrir. Ex: "http://localhost:3000", "C:/Users/USER/Desktop/index.html", "C:/Users/USER/relatorio.pdf"' }
+          url: { type: 'string', description: 'URL ou caminho de arquivo a abrir. Ex: "http://localhost:3000", "/home/user/Desktop/index.html", "~/relatorio.pdf"' }
         },
         required: ['url']
       }
@@ -123,7 +123,8 @@ const handlers = {
         shellCmd = 'cmd';
         shellArgs = ['/c', stripped];
       } else {
-        shellCmd = 'bash';
+        // macOS usa zsh por padrão, Linux usa bash
+        shellCmd = process.platform === 'darwin' ? 'zsh' : 'bash';
         shellArgs = ['-c', cmd];
       }
 
