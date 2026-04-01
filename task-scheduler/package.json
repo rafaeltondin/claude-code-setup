@@ -1,0 +1,39 @@
+{
+  "name": "claude-task-scheduler",
+  "version": "1.0.0",
+  "description": "Sistema de agendamento de tarefas para Claude Code com dashboard web",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js",
+    "scheduler": "node scheduler.js",
+    "cli": "node cli.js",
+    "dev": "node server.js & node scheduler.js",
+    "autostart": "node autostart.js",
+    "autostart:enable": "node autostart.js enable",
+    "autostart:disable": "node autostart.js disable",
+    "autostart:status": "node autostart.js status",
+    "telegram": "node -e \"const tb = require('./telegram-bot'); tb.start();\""
+  },
+  "keywords": [
+    "task-scheduler",
+    "claude-code",
+    "automation",
+    "cron",
+    "telegram"
+  ],
+  "author": "Claude Code Ecosystem",
+  "license": "MIT",
+  "dependencies": {
+    "canvas": "^3.2.1",
+    "chrome-remote-interface": "^0.34.0",
+    "csv-parse": "^6.1.0",
+    "dotenv": "^17.3.1",
+    "express": "^4.18.2",
+    "multer": "^2.0.2",
+    "node-cron": "^3.0.3",
+    "node-telegram-bot-api": "^0.67.0",
+    "pdf-parse": "^2.4.5",
+    "uuid": "^9.0.1",
+    "ws": "^8.16.0"
+  }
+}

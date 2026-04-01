@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Frontend Analyzer - Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="header">
+    <div class="header-content">
+      <div class="logo">
+        <span class="logo-icon">FA</span>
+        <div>
+          <h1>Frontend Analyzer</h1>
+          <span class="version">v2.1.0 - Chrome DevTools</span>
+        </div>
+      </div>
+      <div class="header-status">
+        <span id="session-indicator" class="status-badge status-inactive">Sem sessao</span>
+        <span id="api-status" class="status-badge status-active">API Online</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <!-- Secao: Perfis Chrome -->
+    <section class="section" id="profiles-section">
+      <div class="section-header">
+        <h2>Perfis Chrome & Contas Google</h2>
+        <button class="btn btn-secondary" id="btn-refresh-profiles" title="Reescanear perfis">
+          Atualizar
+        </button>
+      </div>
+      <p class="section-desc">Selecione qual conta Google usar para iniciar a sessao do Chrome DevTools.</p>
+
+      <div id="profiles-loading" class="loading">
+        <div class="spinner"></div>
+        <span>Escaneando perfis Chrome...</span>
+      </div>
+
+      <div id="profiles-error" class="error-box" style="display:none;"></div>
+
+      <div id="profiles-grid" class="profiles-grid"></div>
+
+      <div id="no-profiles" class="empty-state" style="display:none;">
+        <p>Nenhum perfil Chrome encontrado.</p>
+        <p>Verifique se o Google Chrome esta instalado neste computador.</p>
+      </div>
+    </section>
+
+    <!-- Secao: Configuracao do Perfil Padrao -->
+    <section class="section" id="config-section">
+      <div class="section-header">
+        <h2>Configuracao</h2>
+      </div>
+
+      <div class="config-grid">
+        <div class="config-item">
+          <label for="config-default-profile">Perfil padrao</label>
+          <select id="config-default-profile" class="input-select">
+            <option value="">Nenhum (selecionar manualmente)</option>
+          </select>
+        </div>
+
+        <div class="config-item">
+          <label for="config-headless">Modo headless</label>
+          <div class="toggle-wrapper">
+            <input type="checkbox" id="config-headless" class="toggle-input">
+            <label for="config-headless" class="toggle-label">
+              <span class="toggle-text-off">Desativado</span>
+              <span class="toggle-text-on">Ativado</span>
+            </label>
+          </div>
+          <small>Quando ativado, o Chrome roda sem janela visivel</small>
+        </div>
+
+        <div class="config-item">
+          <label for="config-port">Porta DevTools</label>
+          <input type="number" id="config-port" class="input-text" value="9222" min="1024" max="65535">
+        </div>
+
+        <div class="config-item">
+          <label>Tamanho da janela</label>
+          <div class="size-inputs">
+            <input type="number" id="config-width" class="input-text input-small" value="1280" min="320" max="3840" placeholder="Largura">
+            <span>x</span>
+            <input type="number" id="config-height" class="input-text input-small" value="900" min="240" max="2160" placeholder="Altura">
+          </div>
+        </div>
+      </div>
+
+      <button class="btn btn-primary" id="btn-save-config">Salvar Configuracao</button>
+      <span id="config-saved-msg" class="saved-msg" style="display:none;">Configuracao salva!</span>
+    </section>
+
+    <!-- Secao: Sessao Chrome Ativa -->
+    <section class="section" id="session-section">
+      <div class="section-header">
+        <h2>Sessao Chrome DevTools</h2>
+      </div>
+
+      <div id="session-inactive" class="session-box">
+        <p>Nenhuma sessao ativa. Selecione um perfil acima e clique em "Iniciar Sessao" para comecar.</p>
+      </div>
+
+      <div id="session-active" class="session-box session-active-box" style="display:none;">
+        <div class="session-info">
+          <div class="session-detail">
+            <span class="label">Perfil:</span>
+            <span id="session-profile-name" class="value"></span>
+          </div>
+          <div class="session-detail">
+            <span class="label">Conta Google:</span>
+            <span id="session-google-email" class="value"></span>
+          </div>
+          <div class="session-detail">
+            <span class="label">PID:</span>
+            <span id="session-pid" class="value"></span>
+          </div>
+          <div class="session-detail">
+            <span class="label">Porta:</span>
+            <span id="session-port" class="value"></span>
+          </div>
+          <div class="session-detail">
+            <span class="label">Iniciada em:</span>
+            <span id="session-started" class="value"></span>
+          </div>
+        </div>
+
+        <div class="session-actions">
+          <div class="navigate-box">
+            <input type="text" id="navigate-url" class="input-text" placeholder="https://exemplo.com">
+            <button class="btn btn-primary" id="btn-navigate">Navegar</button>
+          </div>
+          <div class="session-buttons">
+            <button class="btn btn-secondary" id="btn-screenshot">Screenshot</button>
+            <button class="btn btn-danger" id="btn-close-session">Fechar Sessao</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Modal de Screenshot -->
+    <div id="screenshot-modal" class="modal" style="display:none;">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Screenshot</h3>
+          <button class="modal-close" id="btn-close-modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <img id="screenshot-img" src="" alt="Screenshot da pagina">
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast de notificacoes -->
+    <div id="toast-container" class="toast-container"></div>
+  </main>
+
+  <footer class="footer">
+    <p>Frontend Analyzer v2.1.0 - Chrome DevTools Integration</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

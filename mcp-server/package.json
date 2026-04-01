@@ -1,0 +1,13 @@
+{
+  "name": "claude-ecosystem-mcp",
+  "version": "1.0.0",
+  "description": "MCP Server para o ecossistema ~/.claude - CRM, Tasks, Finance, Notes, KB",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.27.1"
+  }
+}

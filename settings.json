@@ -1,0 +1,233 @@
+{
+  "env": {
+    "GIT_CONFIG_COUNT": "1",
+    "GIT_CONFIG_KEY_0": "core.autocrlf",
+    "GIT_CONFIG_VALUE_0": "false",
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
+  },
+  "permissions": {
+    "allow": [
+      "Edit",
+      "Write",
+      "Read",
+      "Glob",
+      "Grep",
+      "Bash",
+      "WebFetch(domain:*)",
+      "WebSearch",
+      "MCP",
+      "NotebookEdit",
+      "LSP",
+      "Task",
+      "TodoWrite",
+      "AskUserQuestion",
+      "KillShell",
+      "ExitPlanMode",
+      "Skill",
+      "Skill(auto)",
+      "SlashCommand",
+      "Read(//C:/Users/USER/**)",
+      "mcp__chrome-devtools__click",
+      "mcp__chrome-devtools__close_page",
+      "mcp__chrome-devtools__drag",
+      "mcp__chrome-devtools__emulate",
+      "mcp__chrome-devtools__evaluate_script",
+      "mcp__chrome-devtools__fill",
+      "mcp__chrome-devtools__fill_form",
+      "mcp__chrome-devtools__get_console_message",
+      "mcp__chrome-devtools__get_network_request",
+      "mcp__chrome-devtools__handle_dialog",
+      "mcp__chrome-devtools__hover",
+      "mcp__chrome-devtools__list_console_messages",
+      "mcp__chrome-devtools__list_network_requests",
+      "mcp__chrome-devtools__list_pages",
+      "mcp__chrome-devtools__navigate_page",
+      "mcp__chrome-devtools__new_page",
+      "mcp__chrome-devtools__performance_analyze_insight",
+      "mcp__chrome-devtools__performance_start_trace",
+      "mcp__chrome-devtools__performance_stop_trace",
+      "mcp__chrome-devtools__press_key",
+      "mcp__chrome-devtools__resize_page",
+      "mcp__chrome-devtools__select_page",
+      "mcp__chrome-devtools__take_screenshot",
+      "mcp__chrome-devtools__take_snapshot",
+      "mcp__chrome-devtools__upload_file",
+      "mcp__chrome-devtools__wait_for",
+      "mcp__desktop-commander__execute_command",
+      "mcp__desktop-commander__kill_process",
+      "mcp__desktop-commander__list_processes",
+      "mcp__desktop-commander__read_file",
+      "mcp__desktop-commander__write_file",
+      "mcp__desktop-commander__create_directory",
+      "mcp__desktop-commander__list_directory",
+      "mcp__desktop-commander__move_file",
+      "mcp__desktop-commander__search_files",
+      "mcp__desktop-commander__get_file_metadata",
+      "mcp__desktop-commander__execute_python",
+      "mcp__desktop-commander__execute_nodejs",
+      "mcp__desktop-commander__execute_r",
+      "mcp__desktop-commander__search_and_replace",
+      "mcp__desktop-commander__edit_file",
+      "mcp__desktop-commander__get_configuration",
+      "mcp__desktop-commander__set_configuration",
+      "mcp__sequential-thinking__sequential_thinking",
+      "mcp__memory__create_entities",
+      "mcp__memory__create_relations",
+      "mcp__memory__add_observations",
+      "mcp__memory__delete_entities",
+      "mcp__memory__delete_observations",
+      "mcp__memory__delete_relations",
+      "mcp__memory__read_graph",
+      "mcp__memory__search_nodes",
+      "mcp__memory__open_nodes",
+      "mcp__context7__resolve-library-id",
+      "mcp__context7__get-library-docs",
+      "mcp__fetch__fetch",
+      "mcp__codebase-memory__index_repository",
+      "mcp__codebase-memory__search_graph",
+      "mcp__codebase-memory__query_graph",
+      "mcp__codebase-memory__trace_call_path",
+      "mcp__codebase-memory__get_code_snippet",
+      "mcp__codebase-memory__get_graph_schema",
+      "mcp__codebase-memory__get_architecture",
+      "mcp__codebase-memory__search_code",
+      "mcp__codebase-memory__list_projects",
+      "mcp__codebase-memory__delete_project",
+      "mcp__codebase-memory__index_status",
+      "mcp__codebase-memory__detect_changes",
+      "mcp__codebase-memory__manage_adr",
+      "mcp__codebase-memory__ingest_traces"
+    ],
+    "deny": [
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Edit(./.env)",
+      "Edit(./.env.*)"
+    ],
+    "ask": [],
+    "defaultMode": "bypassPermissions"
+  },
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"C:\\Users\\USER\\.claude\\hooks\\account-rotate-hook.js\""
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"C:\\Users\\USER\\.claude\\hooks\\session-logger.js\""
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "TaskCreate|TaskUpdate",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"C:\\Users\\USER\\.claude\\hooks\\sync-tasks-hook.js\""
+          }
+        ]
+      },
+      {
+        "matcher": "TaskCreate|TaskUpdate",
+        "hooks": []
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"C:\\Users\\USER\\.claude\\hooks\\session-logger.js\""
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"C:\\Users\\USER\\.claude\\hooks\\error-monitor-hook.js\""
+          }
+        ]
+      },
+      {
+        "matcher": "Bash|Edit|Write|MultiEdit|Agent|Task",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"C:/Users/USER/.claude/hooks/gsd-context-monitor.js\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"C:\\Users\\USER\\.claude\\hooks\\account-rotate-hook.js\""
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"C:\\Users\\USER\\.claude\\hooks\\telegram-notify-hook.js\""
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"C:\\Users\\USER\\.claude\\hooks\\session-end-reminder.js\""
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"C:\\Users\\USER\\.claude\\hooks\\session-logger.js\""
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"C:/Users/USER/.claude/hooks/gsd-check-update.js\""
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"C:/Users/USER/.claude/hooks/gsd-prompt-guard.js\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "node \"C:/Users/USER/.claude/hooks/gsd-statusline.js\""
+  },
+  "language": "portuguese-br",
+  "skipDangerousModePermissionPrompt": true
+}

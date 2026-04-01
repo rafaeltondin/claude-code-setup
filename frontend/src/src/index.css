@@ -1,0 +1,367 @@
+@import "tailwindcss";
+
+/* ═══════════════════════════════════════════════════════════════════
+   Design Tokens v5.0 — Linear / Vercel Inspired
+   :root com CSS variables fica fora de @layer (nao afeta especificidade)
+   ═══════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* ========== BACKGROUNDS ========== */
+  --bg-primary: #0a0a0f;
+  --bg-secondary: #12121a;
+  --bg-tertiary: #1a1a25;
+  --bg-elevated: #222230;
+  --bg-hover: rgba(255, 255, 255, 0.04);
+  --bg-active: rgba(255, 255, 255, 0.06);
+
+  /* ========== SURFACE ========== */
+  --surface: #16161f;
+  --surface-hover: #1e1e2a;
+  --surface-active: #262635;
+  --surface-border: rgba(255, 255, 255, 0.08);
+  --surface-border-hover: rgba(255, 255, 255, 0.14);
+
+  /* ========== TEXT HIERARCHY ========== */
+  --text-primary: #f0f0f5;
+  --text-secondary: #9898aa;
+  --text-muted: #6a6a7a;
+  --text-disabled: #4a4a58;
+
+  /* ========== ACCENT — Purple Premium ========== */
+  --accent: #7c6aef;
+  --accent-hover: #9080f5;
+  --accent-active: #6558d3;
+  --accent-subtle: rgba(124, 106, 239, 0.1);
+  --accent-border: rgba(124, 106, 239, 0.25);
+  --accent-glow: rgba(124, 106, 239, 0.3);
+
+  /* ========== SEMANTIC ========== */
+  --success: #22c55e;
+  --success-subtle: rgba(34, 197, 94, 0.1);
+  --warning: #f59e0b;
+  --warning-subtle: rgba(245, 158, 11, 0.1);
+  --error: #ef4444;
+  --error-subtle: rgba(239, 68, 68, 0.1);
+  --info: #3b82f6;
+  --info-subtle: rgba(59, 130, 246, 0.1);
+
+  /* ========== EXTENDED PALETTE ========== */
+  --color-blue: #60a5fa;
+  --color-purple: #8b5cf6;
+  --color-pink: #f472b6;
+  --color-orange: #f59e0b;
+  --color-cyan: #06b6d4;
+  --color-green: #34d399;
+  --color-red: #f87171;
+
+  /* ========== TYPOGRAPHY ========== */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+
+  /* ========== RADIUS ========== */
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius: 6px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+
+  /* ========== SHADOWS ========== */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
+  --shadow-glow: 0 0 12px rgba(124, 106, 239, 0.2);
+
+  /* ========== LAYOUT ========== */
+  --sidebar-w: 240px;
+  --header-h: 56px;
+
+  /* ========== SPACING ========== */
+  --space-2xs: 4px;
+  --space-xs: 8px;
+  --space-sm: 12px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 40px;
+  --space-3xl: 56px;
+
+  /* ========== COMPONENT SIZES ========== */
+  --input-height: 40px;
+  --btn-height-sm: 32px;
+  --btn-height-md: 40px;
+  --btn-height-lg: 48px;
+
+  /* ========== GLASS MORPHISM ========== */
+  --glass-bg: rgba(22, 22, 31, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-blur: blur(16px);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   Base Styles — dentro de @layer base para nao sobrescrever utilities
+   O preflight do Tailwind v4 ja faz box-sizing e margin:0, entao
+   NÃO duplicamos o reset * { margin:0; padding:0 } aqui.
+   ═══════════════════════════════════════════════════════════════════ */
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  html, body, #root {
+    height: 100%;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+  }
+
+  /* Scrollbar Premium */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--surface-border);
+    border-radius: 9999px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--text-disabled);
+  }
+
+  ::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+
+  /* Acessibilidade */
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  /* Form controls globais */
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="number"],
+  input[type="search"],
+  input[type="url"],
+  select,
+  textarea {
+    font-family: var(--font-sans);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   Components — dentro de @layer components para serem sobrescritos
+   por classes Tailwind utilities (gap, p-, m-, etc.)
+   ═══════════════════════════════════════════════════════════════════ */
+
+@layer components {
+  /* Sidebar Responsiva */
+  @media (max-width: 767px) {
+    .content-area {
+      margin-left: 0 !important;
+      width: 100% !important;
+    }
+
+    .sidebar-close-btn {
+      display: flex;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .sidebar-drawer {
+      transform: translateX(0) !important;
+    }
+
+    .sidebar-close-btn {
+      display: none;
+    }
+  }
+
+  /* Wrapper raiz de página */
+  .page-root {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xl);
+  }
+
+  /* Card padrão */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--surface-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-lg);
+  }
+
+  .card-hover {
+    transition: border-color 150ms ease;
+  }
+
+  .card-hover:hover {
+    border-color: var(--surface-border-hover);
+  }
+
+  /* Barra de filtros */
+  .filter-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  /* Input base */
+  .input-base {
+    height: var(--input-height);
+    padding: 0 12px;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--surface-border);
+    border-radius: var(--radius-md);
+    font-size: 14px;
+    color: var(--text-primary);
+    outline: none;
+    width: 100%;
+    transition: border-color 150ms ease, box-shadow 150ms ease;
+  }
+
+  .input-base::placeholder {
+    color: var(--text-muted);
+  }
+
+  .input-base:focus {
+    border-color: var(--accent-border);
+    box-shadow: 0 0 0 3px var(--accent-subtle);
+  }
+
+  /* Table styles */
+  .table-wrapper {
+    overflow-x: auto;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--surface-border);
+    background: var(--surface);
+  }
+
+  .table-wrapper table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+
+  .table-wrapper thead tr {
+    border-bottom: 1px solid var(--surface-border);
+  }
+
+  .table-wrapper thead th {
+    padding: 12px 16px;
+    text-align: left;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
+
+  .table-wrapper tbody tr {
+    transition: background-color 150ms ease;
+  }
+
+  .table-wrapper tbody tr:hover {
+    background: var(--bg-hover);
+  }
+
+  .table-wrapper tbody td {
+    padding: 12px 16px;
+    color: var(--text-primary);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  }
+
+  .table-wrapper tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  /* Badges */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 8px;
+    border-radius: 9999px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+  }
+
+  /* Empty state */
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 64px 24px;
+    gap: 12px;
+    text-align: center;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--surface-border);
+    background: var(--surface);
+  }
+
+  .empty-state-icon {
+    color: var(--surface-border);
+  }
+
+  .empty-state-title {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text-secondary);
+  }
+
+  .empty-state-sub {
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+
+  /* Divisor de seção */
+  .section-divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: var(--space-md);
+  }
+
+  .section-divider-line {
+    flex: 1;
+    height: 1px;
+    background: var(--surface-border);
+  }
+
+  .section-divider-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+
+  /* Nav item hover */
+  .nav-item-link:hover {
+    background: var(--bg-hover) !important;
+  }
+}
+
+/* Streaming pulse animation */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}

@@ -1,0 +1,308 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String?
+  createdAt DateTime @default(now())
+}
+
+model Setting {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String
+  iv        String
+  tag       String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Lead {
+  id           String   @id @default(cuid())
+  name         String
+  email        String?
+  phone        String?
+  company      String?
+  position     String?
+  source       String   @default("manual")
+  status       String   @default("new")
+  temperature  String   @default("cold")
+  notes        String?
+  tags         String   @default("[]")
+  customFields String   @default("{}")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  messages      Message[]
+  activities    Activity[]
+  campaignLeads CampaignLead[]
+
+  @@index([status])
+  @@index([temperature])
+  @@index([source])
+  @@index([createdAt])
+  @@index([status, temperature])
+}
+
+model Message {
+  id          String    @id @default(cuid())
+  leadId      String
+  channel     String
+  direction   String
+  content     String
+  subject     String?
+  htmlContent String?
+  status      String    @default("pending")
+  externalId  String?
+  metadata    String    @default("{}")
+  sentAt      DateTime?
+  deliveredAt DateTime?
+  readAt      DateTime?
+  error       String?
+  campaignId  String?
+  createdAt   DateTime  @default(now())
+
+  lead     Lead      @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  campaign Campaign? @relation(fields: [campaignId], references: [id], onDelete: SetNull)
+
+  scheduledFor DateTime?
+
+  @@index([leadId, createdAt])
+  @@index([direction, createdAt])
+  @@index([campaignId])
+  @@index([status])
+  @@index([scheduledFor])
+}
+
+model Campaign {
+  id          String    @id @default(cuid())
+  name        String
+  description String?
+  channel     String
+  status      String    @default("draft")
+  startedAt   DateTime?
+  completedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  steps    CampaignStep[]
+  leads    CampaignLead[]
+  messages Message[]
+}
+
+model CampaignStep {
+  id                String   @id @default(cuid())
+  campaignId        String
+  order             Int
+  delayDays         Int      @default(0)
+  channel           String
+  template          String
+  subject           String?
+  conditionType     String?
+  conditionValue    String?
+  nextStepOnMatch   Int?
+  nextStepOnNoMatch Int?
+  createdAt         DateTime @default(now())
+
+  campaign Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+}
+
+model CampaignLead {
+  id           String    @id @default(cuid())
+  campaignId   String
+  leadId       String
+  currentStep  Int       @default(0)
+  status       String    @default("active")
+  nextActionAt DateTime?
+  completedAt  DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  campaign Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  lead     Lead     @relation(fields: [leadId], references: [id], onDelete: Cascade)
+
+  @@unique([campaignId, leadId])
+  @@index([campaignId, status])
+  @@index([nextActionAt])
+}
+
+model Activity {
+  id        String   @id @default(cuid())
+  leadId    String
+  type      String
+  details   String   @default("{}")
+  createdAt DateTime @default(now())
+
+  lead Lead @relation(fields: [leadId], references: [id], onDelete: Cascade)
+
+  @@index([leadId, createdAt])
+}
+
+model Template {
+  id        String   @id @default(cuid())
+  name      String
+  channel   String
+  subject   String?
+  content   String
+  category  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model PersonalTask {
+  id          String    @id @default(cuid())
+  title       String
+  description String?
+  status      String    @default("pending")
+  priority    String    @default("medium")
+  dueDate     DateTime?
+  tags        String    @default("[]")
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([status])
+  @@index([priority])
+  @@index([dueDate])
+}
+
+model FinanceCategory {
+  id           String        @id @default(cuid())
+  name         String
+  type         String
+  createdAt    DateTime      @default(now())
+  transactions Transaction[]
+  budgets      Budget[]
+}
+
+model Transaction {
+  id          String    @id @default(cuid())
+  description String?
+  amount      Float
+  date        DateTime
+  categoryId  String?
+  isRecurring Boolean   @default(false)
+  paid        Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  category FinanceCategory? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+
+  @@index([date])
+  @@index([categoryId])
+}
+
+model Budget {
+  id         String    @id @default(cuid())
+  categoryId String?
+  amount     Float
+  month      Int
+  year       Int
+  createdAt  DateTime  @default(now())
+
+  category FinanceCategory? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+
+  @@unique([categoryId, month, year])
+}
+
+model Goal {
+  id            String    @id @default(cuid())
+  name          String
+  targetAmount  Float
+  currentAmount Float     @default(0)
+  deadline      DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model Investment {
+  id        String    @id @default(cuid())
+  name      String
+  amount    Float
+  type      String?
+  date      DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model NoteCategory {
+  id        String   @id @default(cuid())
+  name      String
+  color     String   @default("#FFD700")
+  createdAt DateTime @default(now())
+  notes     Note[]
+}
+
+model Note {
+  id         String    @id @default(cuid())
+  title      String
+  content    String?
+  color      String    @default("#1a1a25")
+  pinned     Boolean   @default(false)
+  archived   Boolean   @default(false)
+  categoryId String?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  category NoteCategory? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+
+  @@index([pinned])
+  @@index([archived])
+  @@index([categoryId])
+}
+
+model ChatSession {
+  id           String   @id @default(cuid())
+  title        String   @default("Nova Conversa")
+  model        String   @default("claude-sonnet-4-6")
+  systemPrompt String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  messages ChatMessage[]
+}
+
+model ChatMessage {
+  id        String   @id @default(cuid())
+  sessionId String
+  role      String
+  content   String
+  logs      String   @default("[]")
+  tokens    Int      @default(0)
+  createdAt DateTime @default(now())
+
+  session ChatSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@index([sessionId, createdAt])
+}
+
+model ScheduledTask {
+  id          String    @id @default(cuid())
+  name        String
+  cron        String
+  command     String    @default("")
+  type        String    @default("shell")
+  apiConfig   String?
+  status      String    @default("active")
+  nextRunAt   DateTime?
+  lastRunAt   DateTime?
+  lastResult  String?
+  lastError   String?
+  retryCount  Int       @default(0)
+  maxRetries  Int       @default(3)
+  lockedBy    String?
+  lockedAt    DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([status])
+  @@index([nextRunAt])
+  @@index([lockedBy])
+}

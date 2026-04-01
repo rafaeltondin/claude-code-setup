@@ -1,0 +1,1471 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#09090b">
+  <title>Claude Code Ecosystem</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+</head>
+<body>
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="logo">
+        <div class="logo-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+          </svg>
+        </div>
+        <div class="logo-text">
+          <h1>Claude Code</h1>
+          <span>Ecosystem</span>
+        </div>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <!-- Principal -->
+      <div class="nav-group">
+        <span class="nav-group-label">Principal</span>
+        <a href="#" class="nav-item active" data-section="dashboard">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+            <rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+          </svg>
+          <span class="nav-label">Dashboard</span>
+        </a>
+        <a href="#" class="nav-item" data-section="tasks">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+          </svg>
+          <span class="nav-label">Tarefas</span>
+          <span class="nav-badge" id="nav-tasks-count">0</span>
+        </a>
+      </div>
+
+      <!-- Conhecimento -->
+      <div class="nav-group">
+        <span class="nav-group-label">Conhecimento</span>
+        <a href="#" class="nav-item" data-section="kb">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 19.5A2.5 2.5 0 016.5 17H20"/>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/>
+          </svg>
+          <span class="nav-label">Base de Conhecimento</span>
+          <span class="nav-badge" id="nav-kb-count">0</span>
+        </a>
+        <a href="#" class="nav-item" data-section="prompts">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/>
+            <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>
+          </svg>
+          <span class="nav-label">Gerenciador de Prompts</span>
+          <span class="nav-badge" id="nav-prompts-count">0</span>
+        </a>
+      </div>
+
+      <!-- Sistema -->
+      <div class="nav-group">
+        <span class="nav-group-label">Sistema</span>
+        <a href="#" class="nav-item" data-section="memory">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="5" r="3"/><circle cx="12" cy="12" r="3"/><circle cx="12" cy="19" r="3"/>
+            <path d="M12 8v1m0 6v1"/>
+          </svg>
+          <span class="nav-label">Memoria</span>
+          <span class="nav-badge" id="nav-memory-count">0</span>
+        </a>
+        <a href="#" class="nav-item" data-section="credentials">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/>
+          </svg>
+          <span class="nav-label">Credenciais</span>
+          <span class="nav-badge" id="nav-cred-count">0</span>
+        </a>
+        <a href="#" class="nav-item" data-section="settings">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M12 1v6m0 6v6M5.6 5.6l4.2 4.2m4.2 4.2l4.2 4.2M1 12h6m6 0h6M5.6 18.4l4.2-4.2m4.2-4.2l4.2-4.2"/>
+          </svg>
+          <span class="nav-label">Configuracoes</span>
+        </a>
+      </div>
+
+      <!-- Ferramentas -->
+      <div class="nav-group">
+        <span class="nav-group-label">Ferramentas</span>
+        <a href="/crm/" class="nav-item" target="_blank" title="CRM Prospeccao IA">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4-4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 00-3-3.87"/>
+            <path d="M16 3.13a4 4 0 010 7.75"/>
+          </svg>
+          <span class="nav-label">CRM Prospeccao</span>
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12" style="margin-left:auto;opacity:0.5">
+            <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/>
+          </svg>
+        </a>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="scheduler-control">
+        <div class="scheduler-status" id="scheduler-status-indicator">
+          <span class="status-dot"></span>
+          <span class="status-label">Agendador</span>
+        </div>
+        <button class="btn-toggle" id="btn-scheduler-toggle">
+          <span id="toggle-icon">▶</span>
+        </button>
+      </div>
+      <div class="connection-status" id="ws-status">
+        <span class="ws-dot"></span>
+        <span>Conectando...</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main">
+    <!-- Header -->
+    <header class="main-header">
+      <div class="header-left">
+        <button class="btn-menu" id="btn-menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/>
+            <line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+        <h2 id="page-title">Dashboard</h2>
+      </div>
+      <div class="header-right">
+        <div class="search-hint" id="search-hint">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+          <span>Buscar...</span>
+          <kbd>Ctrl+K</kbd>
+        </div>
+        <button class="btn btn-success btn-sm" id="btn-quick-exec" title="Execucao Rapida">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+            <polygon points="5,3 19,12 5,21 5,3"/>
+          </svg>
+          <kbd>Ctrl+Shift+X</kbd>
+        </button>
+        <button class="btn btn-icon" id="btn-theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+        </button>
+        <button class="btn btn-icon" id="btn-refresh" title="Atualizar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M23 4v6h-6"/><path d="M1 20v-6h6"/>
+            <path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <div class="breadcrumbs" id="breadcrumbs">
+      <a href="#" class="breadcrumb-item" data-section="dashboard">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+        Inicio
+      </a>
+      <span class="breadcrumb-sep">/</span>
+      <span class="breadcrumb-item active" id="breadcrumb-current">Dashboard</span>
+    </div>
+
+    <!-- Content Container -->
+    <div class="content" id="content">
+      <!-- Dashboard Section -->
+      <section id="section-dashboard" class="section active">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon blue">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
+                <polyline points="22,4 12,14.01 9,11.01"/>
+              </svg>
+            </div>
+            <div class="stat-content">
+              <span class="stat-value" id="stat-total">0</span>
+              <span class="stat-label">Total Tarefas</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon purple">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/>
+              </svg>
+            </div>
+            <div class="stat-content">
+              <span class="stat-value" id="stat-scheduled">0</span>
+              <span class="stat-label">Agendadas</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon orange">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M23 4v6h-6"/><path d="M1 20v-6h6"/>
+                <path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/>
+              </svg>
+            </div>
+            <div class="stat-content">
+              <span class="stat-value" id="stat-running">0</span>
+              <span class="stat-label">Executando</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon green">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="23,6 13.5,15.5 8.5,10.5 1,18"/>
+                <polyline points="17,6 23,6 23,12"/>
+              </svg>
+            </div>
+            <div class="stat-content">
+              <span class="stat-value" id="stat-success">0%</span>
+              <span class="stat-label">Taxa Sucesso</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Health Metrics -->
+        <div class="stats-grid" id="health-metrics-grid">
+          <div class="stat-card">
+            <div class="stat-icon cyan">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/>
+              </svg>
+            </div>
+            <div class="stat-content">
+              <span class="stat-value" id="stat-avg-duration">--</span>
+              <span class="stat-label">Tempo Medio</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon pink">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+              </svg>
+            </div>
+            <div class="stat-content">
+              <span class="stat-value" id="stat-total-tokens">0</span>
+              <span class="stat-label">Tokens Consumidos</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon orange">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/>
+              </svg>
+            </div>
+            <div class="stat-content">
+              <span class="stat-value" id="stat-cost">$0.00</span>
+              <span class="stat-label">Custo Estimado</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon green">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+              </svg>
+            </div>
+            <div class="stat-content">
+              <span class="stat-value" id="stat-health">--</span>
+              <span class="stat-label">Saude Workspace</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Export Button -->
+        <div style="display:flex;justify-content:flex-end;margin-bottom:var(--space-4);">
+          <div class="dropdown" id="export-dropdown">
+            <button class="btn btn-ghost btn-sm" id="btn-export">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+              </svg>
+              Exportar
+            </button>
+            <div class="dropdown-menu" id="export-menu">
+              <button class="dropdown-item" data-action="export-json">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                Exportar JSON
+              </button>
+              <button class="dropdown-item" data-action="export-csv">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                Exportar CSV
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Charts -->
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-header">
+              <h3>Execucoes por Dia</h3>
+            </div>
+            <div class="card-body chart-container">
+              <canvas id="chart-executions"></canvas>
+              <div id="chart-exec-empty" class="chart-empty-overlay" style="display:none;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M3 3v18h18"/><path d="M7 16l4-4 4 4 5-6"/>
+                </svg>
+                <span>Sem execucoes recentes</span>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <h3>Status das Tarefas</h3>
+            </div>
+            <div class="card-body chart-container">
+              <canvas id="chart-status"></canvas>
+              <div id="chart-status-empty" class="chart-empty-overlay" style="display:none;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>
+                </svg>
+                <span>Nenhuma tarefa agendada</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Activity Feed -->
+        <div class="card">
+          <div class="card-header">
+            <div style="display:flex;align-items:center;gap:var(--space-3);">
+              <span class="status-dot status-running"></span>
+              <h3>Feed de Atividades</h3>
+              <span class="badge badge-muted" id="feed-count">0</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:var(--space-2);">
+              <button class="btn btn-ghost btn-sm" id="btn-feed-pause" title="Pausar">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+                  <rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>
+                </svg>
+              </button>
+              <button class="btn btn-ghost btn-sm" id="btn-feed-clear" title="Limpar">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+                  <polyline points="3,6 5,6 21,6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
+                </svg>
+              </button>
+              <select class="select select-sm" id="feed-filter">
+                <option value="all">Todos</option>
+                <option value="task">Tarefas</option>
+                <option value="execution">Execucoes</option>
+                <option value="scheduler">Agendador</option>
+                <option value="memory">Memoria</option>
+              </select>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="feed" id="feed-stream">
+              <div class="empty-state">
+                <svg class="empty-state-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/>
+                </svg>
+                <p class="empty-state-title">Aguardando eventos...</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="card">
+          <div class="card-header">
+            <h3>Atividade Recente</h3>
+            <a href="#" class="link" data-section="tasks">Ver todas</a>
+          </div>
+          <div class="card-body">
+            <div id="recent-activity">
+              <div class="skeleton skeleton-text"></div>
+              <div class="skeleton skeleton-text"></div>
+              <div class="skeleton skeleton-text"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Tasks Section -->
+      <section id="section-tasks" class="section">
+        <div class="section-header">
+          <div>
+            <h3>Tarefas</h3>
+            <p class="text-muted">Gerencie suas tarefas agendadas</p>
+          </div>
+          <div class="section-actions">
+            <button class="btn btn-primary" id="btn-new-task">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+              </svg>
+              Nova Tarefa
+            </button>
+          </div>
+        </div>
+
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-4);">
+          <div class="view-toggle" id="view-toggle">
+            <button class="view-toggle-btn active" data-view="list">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                <line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/>
+                <line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/>
+              </svg>
+            </button>
+            <button class="view-toggle-btn" data-view="kanban">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                <rect x="3" y="3" width="5" height="18" rx="1"/><rect x="10" y="3" width="5" height="12" rx="1"/><rect x="17" y="3" width="5" height="15" rx="1"/>
+              </svg>
+            </button>
+          </div>
+          <div style="display:flex;gap:var(--space-2);">
+            <select class="select" id="filter-status">
+              <option value="">Todos os Status</option>
+              <option value="scheduled">Agendada</option>
+              <option value="running">Executando</option>
+              <option value="completed">Concluida</option>
+              <option value="failed">Falhou</option>
+              <option value="paused">Pausada</option>
+            </select>
+            <select class="select" id="filter-task-category">
+              <option value="">Todas Categorias</option>
+              <option value="Marketing">Marketing</option>
+              <option value="Ads">Ads</option>
+              <option value="Código">Código</option>
+              <option value="SEO">SEO</option>
+              <option value="DevOps">DevOps</option>
+              <option value="Conteúdo">Conteúdo</option>
+              <option value="Design">Design</option>
+              <option value="Geral">Geral</option>
+            </select>
+            <button class="btn btn-ghost btn-sm" id="btn-purge-tasks" style="color:var(--color-error);">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+                <polyline points="3,6 5,6 21,6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
+              </svg>
+              Limpar Tudo
+            </button>
+          </div>
+        </div>
+
+        <!-- Tasks List View -->
+        <div class="tasks-grid" id="tasks-grid">
+          <div class="skeleton skeleton-card"></div>
+          <div class="skeleton skeleton-card"></div>
+          <div class="skeleton skeleton-card"></div>
+        </div>
+
+        <!-- Kanban View -->
+        <div class="kanban" id="kanban-board" style="display:none;">
+          <div class="kanban-col">
+            <div class="kanban-col-header">
+              <span class="status-dot" style="background:var(--color-purple);"></span>
+              <span>Agendada</span>
+              <span class="badge badge-muted" id="kanban-count-scheduled">0</span>
+            </div>
+            <div class="kanban-col-body" id="kanban-col-scheduled"></div>
+          </div>
+          <div class="kanban-col">
+            <div class="kanban-col-header">
+              <span class="status-dot" style="background:var(--color-orange);"></span>
+              <span>Executando</span>
+              <span class="badge badge-muted" id="kanban-count-running">0</span>
+            </div>
+            <div class="kanban-col-body" id="kanban-col-running"></div>
+          </div>
+          <div class="kanban-col">
+            <div class="kanban-col-header">
+              <span class="status-dot" style="background:var(--color-success);"></span>
+              <span>Concluida</span>
+              <span class="badge badge-muted" id="kanban-count-completed">0</span>
+            </div>
+            <div class="kanban-col-body" id="kanban-col-completed"></div>
+          </div>
+          <div class="kanban-col">
+            <div class="kanban-col-header">
+              <span class="status-dot" style="background:var(--color-error);"></span>
+              <span>Falhou</span>
+              <span class="badge badge-muted" id="kanban-count-failed">0</span>
+            </div>
+            <div class="kanban-col-body" id="kanban-col-failed"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Knowledge Base Section -->
+      <section id="section-kb" class="section">
+        <div class="section-header">
+          <div>
+            <h3>Base de Conhecimento</h3>
+            <p class="text-muted">Documentos e PDFs da base de conhecimento</p>
+          </div>
+          <div class="section-actions">
+            <button class="btn btn-ghost btn-sm" id="btn-upload-pdf-trigger">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
+              </svg>
+              Enviar PDF
+            </button>
+            <button class="btn btn-primary" id="btn-new-doc">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+              </svg>
+              Novo Documento
+            </button>
+          </div>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon blue">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/>
+              </svg>
+            </div>
+            <div class="stat-content">
+              <span class="stat-value" id="kb-stat-total">0</span>
+              <span class="stat-label">Total Documentos</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon purple">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/>
+              </svg>
+            </div>
+            <div class="stat-content">
+              <span class="stat-value" id="kb-stat-categories">0</span>
+              <span class="stat-label">Categorias</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon green">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+            </div>
+            <div class="stat-content">
+              <span class="stat-value" id="kb-stat-sections">0</span>
+              <span class="stat-label">Secoes</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:var(--space-2);margin-bottom:var(--space-4);">
+          <div class="search-bar" style="flex:1;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <input type="text" class="input" id="kb-search-input" placeholder="Buscar documentos...">
+          </div>
+          <select class="select" id="kb-filter-category">
+            <option value="">Todas Categorias</option>
+          </select>
+        </div>
+
+        <div id="kb-search-results" style="display:none;"></div>
+
+        <div id="kb-documents-list">
+          <div class="skeleton skeleton-card"></div>
+          <div class="skeleton skeleton-card"></div>
+        </div>
+      </section>
+
+      <!-- Prompts Section -->
+      <section id="section-prompts" class="section">
+        <div class="section-header">
+          <div>
+            <h3>Gerenciador de Prompts</h3>
+            <p class="text-muted">Templates de prompts reutilizaveis</p>
+          </div>
+          <div class="section-actions">
+            <button class="btn btn-primary" id="btn-new-template">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+              </svg>
+              Novo Template
+            </button>
+          </div>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon blue">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/>
+                <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>
+              </svg>
+            </div>
+            <div class="stat-content">
+              <span class="stat-value" id="pm-stat-total">0</span>
+              <span class="stat-label">Total Templates</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon purple">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/>
+              </svg>
+            </div>
+            <div class="stat-content">
+              <span class="stat-value" id="pm-stat-categories">0</span>
+              <span class="stat-label">Categorias</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon green">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/>
+              </svg>
+            </div>
+            <div class="stat-content">
+              <span class="stat-value" id="pm-stat-variables">0</span>
+              <span class="stat-label">Variaveis</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:var(--sp-2);margin-bottom:var(--sp-4);">
+          <div class="search-bar" style="flex:1;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <input type="text" class="input" id="pm-search-input" placeholder="Buscar templates...">
+          </div>
+          <select class="select" id="pm-filter-category">
+            <option value="">Todas Categorias</option>
+          </select>
+        </div>
+
+        <div id="templates-list">
+          <div class="skeleton skeleton-card"></div>
+          <div class="skeleton skeleton-card"></div>
+        </div>
+
+        <div id="gallery-section" style="display:none;">
+          <div class="section-header" style="margin-top:var(--sp-6);">
+            <h3>Galeria</h3>
+          </div>
+          <div id="gallery-list"></div>
+        </div>
+      </section>
+
+      <!-- Memory Section -->
+      <section id="section-memory" class="section">
+        <div class="section-header">
+          <div>
+            <h3>Memoria</h3>
+            <p class="text-muted">Sessoes de conversacao e checkpoints</p>
+          </div>
+          <div class="section-actions">
+            <button class="btn btn-primary" id="btn-new-session">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+              </svg>
+              Nova Sessao
+            </button>
+          </div>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon blue">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="5" r="3"/><circle cx="12" cy="12" r="3"/><circle cx="12" cy="19" r="3"/>
+              </svg>
+            </div>
+            <div class="stat-content">
+              <span class="stat-value" id="mem-stat-total">0</span>
+              <span class="stat-label">Total Sessoes</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon green">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/>
+              </svg>
+            </div>
+            <div class="stat-content">
+              <span class="stat-value" id="mem-stat-active">0</span>
+              <span class="stat-label">Ativas</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon purple">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+              </svg>
+            </div>
+            <div class="stat-content">
+              <span class="stat-value" id="mem-stat-tasks">0</span>
+              <span class="stat-label">Tarefas</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon orange">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/>
+              </svg>
+            </div>
+            <div class="stat-content">
+              <span class="stat-value" id="mem-stat-checkpoints">0</span>
+              <span class="stat-label">Checkpoints</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-4);">
+          <div style="display:flex;gap:var(--space-2);">
+            <button class="btn btn-ghost btn-sm filter-btn active" data-filter="all">Todos</button>
+            <button class="btn btn-ghost btn-sm filter-btn" data-filter="favorites">Favoritos</button>
+            <button class="btn btn-ghost btn-sm filter-btn" data-filter="running">Executando</button>
+            <button class="btn btn-ghost btn-sm filter-btn" data-filter="idle">Ociosa</button>
+            <button class="btn btn-ghost btn-sm filter-btn" data-filter="completed">Concluida</button>
+          </div>
+          <div style="display:flex;gap:var(--space-2);">
+            <div class="search-bar">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+              </svg>
+              <input type="text" class="input input-sm" id="mem-search-input" placeholder="Buscar...">
+            </div>
+            <button class="btn btn-ghost btn-sm" id="btn-purge-sessions" style="color:var(--color-error);">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+                <polyline points="3,6 5,6 21,6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
+              </svg>
+              Limpar
+            </button>
+          </div>
+        </div>
+
+        <!-- Terminal em Tempo Real -->
+        <div class="card terminal-panel" id="terminal-panel">
+          <div class="card-header">
+            <div style="display:flex;align-items:center;gap:var(--space-3);">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+                <polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/>
+              </svg>
+              <h3>Terminal em Tempo Real</h3>
+              <div class="terminal-status-bar" id="terminal-status">
+                <span class="status-dot status-idle"></span>
+                <span class="status-label">Aguardando</span>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:var(--space-2);">
+              <select class="select select-sm" id="terminal-exec-select" style="min-width:200px;">
+                <option value="">Selecione uma execucao...</option>
+              </select>
+              <button class="btn btn-ghost btn-sm" id="btn-terminal-scroll" title="Auto-scroll">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+                  <polyline points="17 11 12 6 7 11"/><polyline points="17 18 12 13 7 18"/>
+                </svg>
+              </button>
+              <button class="btn btn-ghost btn-sm" id="btn-terminal-clear" title="Limpar">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+                  <polyline points="3,6 5,6 21,6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
+                </svg>
+              </button>
+              <button class="btn btn-ghost btn-sm" id="btn-terminal-toggle" title="Minimizar/Maximizar">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+                  <polyline points="18 15 12 9 6 15"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="card-body" style="padding:0;">
+            <!-- Terminal Output Area -->
+            <div class="terminal-output" id="terminal-output">
+              <div class="terminal-welcome">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="48" height="48" style="opacity:0.5;margin-bottom:var(--space-3);">
+                  <polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/>
+                </svg>
+                <p style="color:var(--text-muted);font-size:var(--text-sm);">Selecione uma execucao ativa para visualizar o output em tempo real</p>
+              </div>
+            </div>
+            <!-- Terminal Input Bar -->
+            <div class="terminal-input-bar" id="terminal-input-bar" style="display:none;">
+              <span class="terminal-prompt">></span>
+              <input
+                type="text"
+                class="terminal-input"
+                id="terminal-input"
+                placeholder="Digite um comando ou resposta..."
+                autocomplete="off"
+              >
+              <button class="btn btn-success btn-sm" id="btn-terminal-send">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+                  <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                </svg>
+                Enviar
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div id="sessions-list">
+          <div class="skeleton skeleton-card"></div>
+          <div class="skeleton skeleton-card"></div>
+        </div>
+      </section>
+
+      <!-- Credentials Section -->
+      <section id="section-credentials" class="section">
+        <div class="section-header">
+          <div>
+            <h3>Credenciais</h3>
+            <p class="text-muted">Vault de credenciais criptografadas</p>
+          </div>
+          <div class="section-actions">
+            <button class="btn btn-ghost btn-sm" id="btn-import-credentials">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
+              </svg>
+              Importar
+            </button>
+            <button class="btn btn-primary" id="btn-new-credential">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+              </svg>
+              Nova Credencial
+            </button>
+          </div>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon blue">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/>
+              </svg>
+            </div>
+            <div class="stat-content">
+              <span class="stat-value" id="cred-stat-total">0</span>
+              <span class="stat-label">Total</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon purple">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/>
+              </svg>
+            </div>
+            <div class="stat-content">
+              <span class="stat-value" id="cred-stat-categories">0</span>
+              <span class="stat-label">Categorias</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon green">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="5" y="11" width="14" height="10" rx="2"/><circle cx="12" cy="16" r="1"/>
+              </svg>
+            </div>
+            <div class="stat-content">
+              <span class="stat-value" id="cred-stat-encrypted">AES-256</span>
+              <span class="stat-label">Criptografia</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon orange">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/>
+              </svg>
+            </div>
+            <div class="stat-content">
+              <span class="stat-value" id="cred-stat-last-used">--</span>
+              <span class="stat-label">Ultimo Uso</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:var(--space-2);margin-bottom:var(--space-4);">
+          <div class="search-bar" style="flex:1;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <input type="text" class="input" id="cred-search-input" placeholder="Buscar credenciais...">
+          </div>
+          <select class="select" id="cred-filter-category">
+            <option value="">Todas Categorias</option>
+          </select>
+        </div>
+
+        <div id="credentials-list">
+          <div class="skeleton skeleton-card"></div>
+          <div class="skeleton skeleton-card"></div>
+        </div>
+      </section>
+
+      <!-- Settings Section -->
+      <section id="section-settings" class="section">
+        <div class="section-header">
+          <div>
+            <h3>Configuracoes</h3>
+            <p class="text-muted">Notificacoes, scheduler e integracoes</p>
+          </div>
+        </div>
+
+        <!-- Notifications Config -->
+        <div class="card">
+          <div class="card-header">
+            <h3>Notificacoes</h3>
+          </div>
+          <div class="card-body">
+            <div class="form-group">
+              <label class="checkbox">
+                <input type="checkbox" id="notif-enabled">
+                <span>Habilitar notificacoes</span>
+              </label>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Webhook URL</label>
+              <input type="text" class="input" id="notif-webhook" placeholder="https://...">
+              <span class="form-hint">URL para enviar notificacoes webhook</span>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Eventos</label>
+              <label class="checkbox"><input type="checkbox" id="notif-task-created"><span>Tarefa criada</span></label>
+              <label class="checkbox"><input type="checkbox" id="notif-exec-completed"><span>Execucao concluida</span></label>
+              <label class="checkbox"><input type="checkbox" id="notif-exec-failed"><span>Execucao falhou</span></label>
+            </div>
+            <div class="form-group">
+              <button class="btn btn-ghost btn-sm" id="btn-test-notif">Testar Notificacao</button>
+              <button class="btn btn-primary" id="btn-save-notif">Salvar</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Scheduler Config -->
+        <div class="card">
+          <div class="card-header">
+            <h3>Agendador</h3>
+          </div>
+          <div class="card-body">
+            <div class="form-group">
+              <label class="form-label">Intervalo de Verificacao (ms)</label>
+              <input type="number" class="input" id="scheduler-interval" placeholder="5000">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Execucoes Concorrentes</label>
+              <input type="number" class="input" id="scheduler-max-concurrent" placeholder="3">
+            </div>
+            <div class="form-group">
+              <button class="btn btn-primary" id="btn-save-scheduler">Salvar</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- MCP Integrations -->
+        <div class="card">
+          <div class="card-header">
+            <h3>Integracoes MCP</h3>
+            <button class="btn btn-ghost btn-sm" id="btn-refresh-intg">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+                <path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/>
+              </svg>
+              Atualizar
+            </button>
+          </div>
+          <div class="card-body">
+            <div class="intg-strip" id="integrations-strip">
+              <div class="skeleton skeleton-text"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Chrome Profiles -->
+        <div class="card">
+          <div class="card-header">
+            <h3>Perfis do Chrome</h3>
+            <button class="btn btn-ghost btn-sm" id="btn-refresh-profiles">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+                <path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/>
+              </svg>
+              Escanear
+            </button>
+          </div>
+          <div class="card-body">
+            <div id="chrome-profiles-list">
+              <div class="skeleton skeleton-text"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Telegram Bot -->
+        <div class="card">
+          <div class="card-header">
+            <h3>Telegram Bot</h3>
+            <div id="telegram-status" style="display:flex;align-items:center;gap:var(--sp-2);">
+              <span class="status-dot" style="width:8px;height:8px;border-radius:50%;background:var(--muted);"></span>
+              <span style="font-size:var(--text-sm);color:var(--text-muted);">Desconectado</span>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="form-group">
+              <label class="form-label">Bot Token</label>
+              <input type="password" class="input" id="telegram-token" placeholder="Token do bot...">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Chat ID</label>
+              <input type="text" class="input" id="telegram-chat-id" placeholder="ID do chat autorizado">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Eventos</label>
+              <label class="checkbox"><input type="checkbox" id="tg-notif-success"><span>Execução concluída</span></label>
+              <label class="checkbox"><input type="checkbox" id="tg-notif-failed"><span>Execução falhou</span></label>
+              <label class="checkbox"><input type="checkbox" id="tg-notif-created"><span>Tarefa criada</span></label>
+            </div>
+            <div style="display:flex;gap:var(--sp-2);flex-wrap:wrap;">
+              <button class="btn btn-ghost btn-sm" id="btn-tg-test">Testar</button>
+              <button class="btn btn-primary" id="btn-tg-save">Salvar</button>
+              <button class="btn btn-success btn-sm" id="btn-tg-start">Iniciar Bot</button>
+              <button class="btn btn-ghost btn-sm" id="btn-tg-stop" style="color:var(--error);">Parar</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- ═══════════════ MODAIS ═══════════════ -->
+
+  <!-- Modal: Nova/Editar Tarefa -->
+  <div class="modal-overlay" id="modal-task" style="display:none">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="modal-task-title">Nova Tarefa</h3>
+        <button class="btn btn-icon btn-sm" onclick="closeAllModals()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="task-edit-id">
+        <div class="form-group">
+          <label class="form-label">Nome *</label>
+          <input type="text" class="input" id="task-name" placeholder="Nome da tarefa" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Prompt / Comando</label>
+          <textarea class="textarea" id="task-prompt" rows="6" placeholder="Prompt para o Claude executar..."></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Descricao</label>
+          <input type="text" class="input" id="task-description" placeholder="Descricao curta (opcional)">
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-4);">
+          <div class="form-group">
+            <label class="form-label">Agendar para</label>
+            <input type="datetime-local" class="input" id="task-scheduled-at">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Cron (recorrente)</label>
+            <input type="text" class="input" id="task-cron" placeholder="*/5 * * * * (opcional)">
+            <span class="form-hint">Deixe vazio para execucao unica</span>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-4);">
+          <div class="form-group">
+            <label class="form-label">Prioridade</label>
+            <select class="select" id="task-priority">
+              <option value="1">Alta</option>
+              <option value="2" selected>Media</option>
+              <option value="3">Baixa</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Tags</label>
+            <input type="text" class="input" id="task-tags" placeholder="tag1, tag2 (separar por virgula)">
+          </div>
+        </div>
+        <div class="form-hint" style="margin-bottom:var(--space-3);">
+          ✦ Categoria detectada automaticamente pelo conteúdo da tarefa
+        </div>
+        <div class="form-group">
+          <label class="checkbox">
+            <input type="checkbox" id="task-run-immediately">
+            <span>Executar imediatamente apos criar</span>
+          </label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" onclick="closeAllModals()">Cancelar</button>
+        <button class="btn btn-primary" id="btn-save-task">Salvar Tarefa</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Novo/Editar Documento KB -->
+  <div class="modal-overlay" id="modal-kb-doc" style="display:none">
+    <div class="modal" style="max-width:700px;">
+      <div class="modal-header">
+        <h3 id="modal-kb-title">Novo Documento</h3>
+        <button class="btn btn-icon btn-sm" onclick="closeAllModals()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="kb-edit-filename">
+        <div style="display:grid;grid-template-columns:2fr 1fr;gap:var(--sp-4);">
+          <div class="form-group">
+            <label class="form-label">Nome do arquivo *</label>
+            <input type="text" class="input" id="kb-doc-filename" placeholder="MEU-DOCUMENTO">
+            <span class="form-hint">Extensao .md sera adicionada automaticamente</span>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Categoria</label>
+            <input type="text" class="input" id="kb-doc-category" placeholder="Ex: Dev, API, Guia">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Conteudo Markdown *</label>
+          <textarea class="textarea" id="kb-doc-content" rows="16" placeholder="# Titulo&#10;&#10;Conteudo em Markdown..." style="font-family:var(--font-mono);font-size:var(--text-sm);"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" onclick="closeAllModals()">Cancelar</button>
+        <button class="btn btn-primary" id="btn-save-kb-doc">Salvar Documento</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Upload PDF -->
+  <div class="modal-overlay" id="modal-kb-pdf" style="display:none">
+    <div class="modal" style="max-width:500px;">
+      <div class="modal-header">
+        <h3>Enviar PDF para Base de Conhecimento</h3>
+        <button class="btn btn-icon btn-sm" onclick="closeAllModals()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label">Arquivo PDF *</label>
+          <input type="file" class="input" id="kb-pdf-file" accept=".pdf" style="padding:var(--sp-2);">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Nome do documento (opcional)</label>
+          <input type="text" class="input" id="kb-pdf-name" placeholder="Sera gerado automaticamente se vazio">
+        </div>
+        <div id="kb-pdf-progress" style="display:none;">
+          <div class="form-hint" style="margin-bottom:var(--sp-2);">Processando PDF...</div>
+          <div class="progress"><div class="progress-fill" id="kb-pdf-progress-bar" style="width:0%;"></div></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" onclick="closeAllModals()">Cancelar</button>
+        <button class="btn btn-primary" id="btn-upload-pdf">Enviar e Processar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Novo/Editar Template de Prompt -->
+  <div class="modal-overlay" id="modal-template" style="display:none">
+    <div class="modal" style="max-width:700px;">
+      <div class="modal-header">
+        <h3 id="modal-template-title">Novo Template</h3>
+        <button class="btn btn-icon btn-sm" onclick="closeAllModals()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="template-edit-id">
+        <div style="display:grid;grid-template-columns:2fr 1fr;gap:var(--sp-4);">
+          <div class="form-group">
+            <label class="form-label">Nome *</label>
+            <input type="text" class="input" id="template-name" placeholder="Nome do template">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Categoria</label>
+            <input type="text" class="input" id="template-category" placeholder="Ex: Analise, Deploy">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Descricao</label>
+          <input type="text" class="input" id="template-description" placeholder="Descricao curta do template">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Prompt Template *</label>
+          <textarea class="textarea" id="template-prompt-text" rows="12" placeholder="Use {{variavel}} para variaveis dinamicas.&#10;&#10;Ex: Analise o projeto {{projeto}} focando em {{aspecto}}..." style="font-family:var(--font-mono);font-size:var(--text-sm);"></textarea>
+          <span class="form-hint">Use <code>{{nome}}</code> para criar variaveis dinamicas</span>
+        </div>
+        <div class="form-group" id="template-vars-detected" style="display:none;">
+          <label class="form-label">Variaveis Detectadas</label>
+          <div id="template-vars-list" style="display:flex;gap:var(--sp-2);flex-wrap:wrap;"></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" onclick="closeAllModals()">Cancelar</button>
+        <button class="btn btn-primary" id="btn-save-template">Salvar Template</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Usar Template (preencher variaveis) -->
+  <div class="modal-overlay" id="modal-use-template" style="display:none">
+    <div class="modal" style="max-width:600px;">
+      <div class="modal-header">
+        <h3 id="modal-use-template-title">Preencher Template</h3>
+        <button class="btn btn-icon btn-sm" onclick="closeAllModals()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="use-template-id">
+        <div id="use-template-vars"></div>
+        <div class="form-group" style="margin-top:var(--sp-4);">
+          <label class="form-label">Visualizacao</label>
+          <div class="pm-preview" id="use-template-preview" style="font-family:var(--font-mono);font-size:var(--text-sm);max-height:200px;overflow-y:auto;padding:var(--sp-3);background:var(--bg-tertiary);border-radius:var(--radius);white-space:pre-wrap;"></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" onclick="closeAllModals()">Cancelar</button>
+        <button class="btn btn-ghost" id="btn-copy-template">Copiar Prompt</button>
+        <button class="btn btn-success" id="btn-execute-template">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polygon points="5,3 19,12 5,21 5,3"/></svg>
+          Executar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Nova Sessao Memory -->
+  <div class="modal-overlay" id="modal-session" style="display:none">
+    <div class="modal" style="max-width:500px;">
+      <div class="modal-header">
+        <h3>Nova Sessao</h3>
+        <button class="btn btn-icon btn-sm" onclick="closeAllModals()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label">Objetivo *</label>
+          <textarea class="textarea" id="session-objective" rows="4" placeholder="Descreva o objetivo desta sessao..."></textarea>
+        </div>
+        <div class="form-group">
+          <label class="checkbox">
+            <input type="checkbox" id="session-force-active" checked>
+            <span>Definir como sessao ativa</span>
+          </label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" onclick="closeAllModals()">Cancelar</button>
+        <button class="btn btn-primary" id="btn-save-session">Criar Sessao</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Nova/Editar Credencial -->
+  <div class="modal-overlay" id="modal-credential" style="display:none">
+    <div class="modal" style="max-width:500px;">
+      <div class="modal-header">
+        <h3 id="modal-cred-title">Nova Credencial</h3>
+        <button class="btn btn-icon btn-sm" onclick="closeAllModals()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="cred-edit-id">
+        <div class="form-group">
+          <label class="form-label">Nome *</label>
+          <input type="text" class="input" id="cred-name" placeholder="Ex: SHOPIFY_ACCESS_TOKEN">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Valor *</label>
+          <input type="password" class="input" id="cred-value" placeholder="Valor da credencial" style="font-family:var(--font-mono);">
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-4);">
+          <div class="form-group">
+            <label class="form-label">Categoria</label>
+            <input type="text" class="input" id="cred-category" placeholder="Ex: Shopify, Meta">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Fonte</label>
+            <input type="text" class="input" id="cred-source" placeholder="Ex: Dashboard, CLI">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Descricao</label>
+          <input type="text" class="input" id="cred-description" placeholder="Descricao (opcional)">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" onclick="closeAllModals()">Cancelar</button>
+        <button class="btn btn-primary" id="btn-save-credential">Salvar Credencial</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Visualizar Documento KB -->
+  <div class="modal-overlay" id="modal-kb-view" style="display:none">
+    <div class="modal" style="max-width:850px;max-height:90vh;">
+      <div class="modal-header">
+        <h3 id="modal-kb-view-title">Documento</h3>
+        <div style="display:flex;gap:var(--sp-2);align-items:center;">
+          <button class="btn btn-ghost btn-sm" id="btn-kb-view-raw" title="Alternar Raw/Rendered">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            <span>Codigo</span>
+          </button>
+          <button class="btn btn-ghost btn-sm" id="btn-kb-view-edit">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            <span>Editar</span>
+          </button>
+          <button class="btn btn-ghost btn-sm btn-danger-text" id="btn-kb-view-delete" title="Deletar documento">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+          </button>
+          <button class="btn btn-icon btn-sm" onclick="closeAllModals()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="modal-body" style="overflow-y:auto;padding:0;">
+        <div id="kb-view-meta" class="kb-view-meta"></div>
+        <div id="kb-view-content" class="kb-view-rendered"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Visualizar Sessao Memory -->
+  <div class="modal-overlay" id="modal-session-view" style="display:none">
+    <div class="modal" style="max-width:700px;max-height:90vh;">
+      <div class="modal-header">
+        <h3 id="modal-session-view-title">Sessao</h3>
+        <button class="btn btn-icon btn-sm" onclick="closeAllModals()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body" style="overflow-y:auto;">
+        <div id="session-view-content"></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" onclick="closeAllModals()">Fechar</button>
+        <button class="btn btn-primary" id="btn-session-checkpoint">Criar Checkpoint</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Logs da Tarefa -->
+  <div class="modal-overlay" id="modal-task-logs" style="display:none">
+    <div class="modal" style="max-width:750px;max-height:90vh;">
+      <div class="modal-header">
+        <h3 id="modal-task-logs-title">Logs da Tarefa</h3>
+        <button class="btn btn-icon btn-sm" onclick="closeAllModals()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body" style="overflow-y:auto;">
+        <div id="task-logs-content"></div>
+        <div id="task-logs-interact" style="display:none;border-top:1px solid var(--border);padding-top:var(--sp-3);margin-top:var(--sp-3);">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--sp-2);">
+            <strong>Interagir com a Sessao</strong>
+            <span id="task-logs-interact-hint" style="font-size:var(--text-xs);color:var(--text-muted);"></span>
+          </div>
+          <div style="display:flex;gap:var(--sp-2);align-items:center;">
+            <input
+              type="text"
+              class="input"
+              id="task-logs-interact-input"
+              placeholder="Continuar conversa com o agente..."
+              style="flex:1;"
+            >
+            <button
+              class="btn btn-success btn-sm"
+              id="btn-task-logs-interact"
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+                <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+              </svg>
+              <span id="btn-task-logs-interact-text">Continuar</span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" onclick="closeAllModals()">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Confirmacao Generica -->
+  <div class="modal-overlay" id="modal-confirm" style="display:none">
+    <div class="modal" style="max-width:400px;">
+      <div class="modal-header">
+        <h3 id="confirm-title">Confirmar</h3>
+        <button class="btn btn-icon btn-sm" onclick="closeAllModals()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p id="confirm-message" style="color:var(--text-secondary);"></p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" onclick="closeAllModals()">Cancelar</button>
+        <button class="btn btn-danger" id="btn-confirm-action">Confirmar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Command Palette -->
+  <div class="cmd-overlay" id="cmd-overlay">
+    <div class="cmd-palette">
+      <div class="cmd-input-wrapper">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+        <input type="text" class="cmd-input" id="cmd-input" placeholder="Digite para buscar...">
+      </div>
+      <div class="cmd-results" id="cmd-results"></div>
+    </div>
+  </div>
+
+  <!-- Quick Execute -->
+  <div class="qe-overlay" id="qe-overlay">
+    <div class="qe-panel">
+      <div class="modal-header">
+        <h3>Execucao Rapida</h3>
+        <button class="btn btn-icon btn-sm" id="btn-qe-close">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label">Prompt</label>
+          <textarea class="textarea" id="qe-prompt" rows="8" placeholder="Digite seu prompt aqui..."></textarea>
+        </div>
+        <div class="form-group">
+          <label class="checkbox">
+            <input type="checkbox" id="qe-use-memory">
+            <span>Usar Memory (continuar sessao ativa)</span>
+          </label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" id="btn-qe-cancel">Cancelar</button>
+        <button class="btn btn-success" id="btn-qe-execute">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+            <polygon points="5,3 19,12 5,21 5,3"/>
+          </svg>
+          Executar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- CDN Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+
+  <!-- App Script -->
+  <script src="app.js"></script>
+</body>
+</html>

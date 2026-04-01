@@ -1,0 +1,37 @@
+{
+  "segment": "clínicas odontológicas",
+  "region": "Florianópolis SC",
+  "results": [
+    {
+      "id": "cmmofxo88000iw0f4af19wa4d",
+      "name": "Orbis Odontologia Integrada | Clínica Odontológica de Alto Padrão em ...",
+      "score": 15,
+      "tier": "🔵 Frio",
+      "signals": 1,
+      "addedToCampaign": false
+    },
+    {
+      "id": "cmmofxx73000nw0f43bhgern7",
+      "name": "MOU odontologia | Clínica Odontológica em Florianópolis",
+      "score": 15,
+      "tier": "🔵 Frio",
+      "signals": 1,
+      "addedToCampaign": false
+    },
+    {
+      "id": "cmmofy4op000sw0f466ojhx94",
+      "name": "YOMA odontologia | Clínica Odontológica em Florianópolis",
+      "score": 15,
+      "tier": "🔵 Frio",
+      "signals": 1,
+      "addedToCampaign": false
+    }
+  ],
+  "summary": {
+    "created": 3,
+    "addedToCampaign": 0,
+    "hot": 0,
+    "warm": 0,
+    "cold": 3
+  }
+}

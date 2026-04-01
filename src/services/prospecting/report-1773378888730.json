@@ -1,0 +1,53 @@
+{
+  "segment": "imobiliárias",
+  "region": "Joinville SC",
+  "results": [
+    {
+      "id": "cmmofzf21000xw0f45wnvu0vt",
+      "name": "Imóveis, Casas e Apartamentos para Compra, Venda e Aluguel",
+      "score": 15,
+      "tier": "🔵 Frio",
+      "signals": 1,
+      "addedToCampaign": false
+    },
+    {
+      "id": "cmmofzmv90012w0f4tzdzyuen",
+      "name": "Imobiliária em Joinville | ODAIR IMÓVEIS | Venda e Locação Imóveis ...",
+      "score": 35,
+      "tier": "🔵 Frio",
+      "signals": 2,
+      "addedToCampaign": false
+    },
+    {
+      "id": "cmmofzsmk0017w0f4n3sxaqbl",
+      "name": "Imobiliária Vila Nova - Negócios Imobiliários - Imóveis em Joinville - SC",
+      "score": 25,
+      "tier": "🔵 Frio",
+      "signals": 2,
+      "addedToCampaign": false
+    },
+    {
+      "id": "cmmofzy6z001cw0f4bhfcmkpq",
+      "name": "Manchester Imóveis",
+      "score": 35,
+      "tier": "🔵 Frio",
+      "signals": 2,
+      "addedToCampaign": false
+    },
+    {
+      "id": "cmmog03yl001hw0f49y4xec82",
+      "name": "Melhores Imobiliarias Em Joinville 《 2026 》",
+      "score": 15,
+      "tier": "🔵 Frio",
+      "signals": 1,
+      "addedToCampaign": false
+    }
+  ],
+  "summary": {
+    "created": 5,
+    "addedToCampaign": 0,
+    "hot": 0,
+    "warm": 0,
+    "cold": 5
+  }
+}
