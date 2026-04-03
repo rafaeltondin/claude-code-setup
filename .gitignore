@@ -52,3 +52,16 @@ __pycache__/
 # OS files
 .DS_Store
 Thumbs.db
+
+# .env files
+**/.env
+.env*
+
+# Contexto de credenciais
+contexts/credentials-context.md
+
+# Dados de sessao e logs pessoais
+session-diary/diary.jsonl
+session-analyzer/temp-analysis.json
+session-analyzer/*.json
+*.log
