@@ -19,27 +19,9 @@ const { execSync, spawn } = require('child_process');
 
 // ─── CONFIGURACAO ────────────────────────────────────────────────────────────
 
-const os = require('os');
-
-function getChromePath() {
-  switch (process.platform) {
-    case 'darwin': return '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
-    case 'win32':  return 'C:/Program Files/Google/Chrome/Application/chrome.exe';
-    default:       return '/usr/bin/google-chrome';
-  }
-}
-
-function getUserDataDir() {
-  switch (process.platform) {
-    case 'darwin': return path.join(os.homedir(), 'Library', 'Application Support', 'Google', 'Chrome');
-    case 'win32':  return path.join(process.env.LOCALAPPDATA || '', 'Google', 'Chrome', 'User Data');
-    default:       return path.join(os.homedir(), '.config', 'google-chrome');
-  }
-}
-
-const CHROME_PATH = getChromePath();
-const USER_DATA_DIR = getUserDataDir();
-const DEBUG_PROFILES_DIR = path.join(os.homedir(), '.claude', 'chrome-debug-profiles');
+const CHROME_PATH = 'C:/Program Files/Google/Chrome/Application/chrome.exe';
+const USER_DATA_DIR = 'C:/Users/sabola/AppData/Local/Google/Chrome/User Data';
+const DEBUG_PROFILES_DIR = 'C:/Users/sabola/.claude/chrome-debug-profiles';
 const PORT_RANGE = { min: 9333, max: 9399 };
 const LOCAL_STATE_PATH = path.join(USER_DATA_DIR, 'Local State');
 
@@ -217,42 +199,27 @@ function ensureJunction() {
     // Junction nao existe, criar
   }
 
-  // Criar symlink (ln -s no macOS/Linux, junction via PowerShell no Windows)
+  // Criar junction via PowerShell
   try {
-    if (process.platform === 'win32') {
-      execSync(
-        `powershell -Command "Remove-Item '${JUNCTION_PATH}' -Force -ErrorAction SilentlyContinue; New-Item -ItemType Junction -Path '${JUNCTION_PATH}' -Target '${USER_DATA_DIR}' -Force | Out-Null"`,
-        { stdio: 'pipe' }
-      );
-    } else {
-      execSync(`rm -f "${JUNCTION_PATH}" && ln -s "${USER_DATA_DIR}" "${JUNCTION_PATH}"`, { stdio: 'pipe' });
-    }
-    console.log(`[OK] Link criado: ${JUNCTION_PATH} -> ${USER_DATA_DIR}`);
+    execSync(
+      `powershell -Command "Remove-Item '${JUNCTION_PATH}' -Force -ErrorAction SilentlyContinue; New-Item -ItemType Junction -Path '${JUNCTION_PATH}' -Target '${USER_DATA_DIR}' -Force | Out-Null"`,
+      { stdio: 'pipe' }
+    );
+    console.log(`[OK] Junction criada: ${JUNCTION_PATH} -> ${USER_DATA_DIR}`);
     return JUNCTION_PATH;
   } catch (e) {
-    console.log(`[ERRO] Falha ao criar link: ${e.message}`);
+    console.log(`[ERRO] Falha ao criar junction: ${e.message}`);
     return null;
   }
 }
 
 function isChromeRunning() {
   try {
-    let result;
-    if (process.platform === 'win32') {
-      result = execSync(
-        'powershell -Command "(Get-Process chrome -ErrorAction SilentlyContinue | Measure-Object).Count"',
-        { encoding: 'utf8', stdio: 'pipe' }
-      ).trim();
-      return parseInt(result) > 0;
-    } else {
-      // macOS/Linux: pgrep -c returns count, exit code 1 if none found
-      try {
-        result = execSync('pgrep -c -i "Google Chrome|chrome"', { encoding: 'utf8', stdio: 'pipe' }).trim();
-        return parseInt(result) > 0;
-      } catch {
-        return false; // pgrep exits 1 when no processes found
-      }
-    }
+    const result = execSync(
+      'powershell -Command "(Get-Process chrome -ErrorAction SilentlyContinue | Measure-Object).Count"',
+      { encoding: 'utf8', stdio: 'pipe' }
+    ).trim();
+    return parseInt(result) > 0;
   } catch {
     return false;
   }
@@ -260,19 +227,12 @@ function isChromeRunning() {
 
 function killChrome() {
   try {
-    if (process.platform === 'win32') {
-      execSync(
-        'powershell -Command "Get-Process chrome -ErrorAction SilentlyContinue | ForEach-Object { $_.CloseMainWindow() | Out-Null }; Start-Sleep -Seconds 3; Get-Process chrome -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue"',
-        { stdio: 'pipe', timeout: 15000 }
-      );
-      execSync('powershell -Command "Start-Sleep -Seconds 2"', { stdio: 'pipe' });
-    } else {
-      // macOS/Linux: graceful quit first, then force kill
-      try { execSync('pkill -SIGTERM -i "Google Chrome"', { stdio: 'pipe' }); } catch {}
-      // Wait up to 3s for graceful exit
-      execSync('sleep 3', { stdio: 'pipe' });
-      try { execSync('pkill -SIGKILL -i "Google Chrome"', { stdio: 'pipe' }); } catch {}
-    }
+    execSync(
+      'powershell -Command "Get-Process chrome -ErrorAction SilentlyContinue | ForEach-Object { $_.CloseMainWindow() | Out-Null }; Start-Sleep -Seconds 3; Get-Process chrome -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue"',
+      { stdio: 'pipe', timeout: 15000 }
+    );
+    // Aguardar processos finalizarem
+    execSync('powershell -Command "Start-Sleep -Seconds 2"', { stdio: 'pipe' });
     return true;
   } catch (e) {
     console.log(`[AVISO] Falha ao fechar Chrome: ${e.message}`);

@@ -1,0 +1,54 @@
+# Credenciais e dados sensíveis
+.credentials.json
+*.credentials*.json
+accounts/.credentials*.json
+accounts/.temp-backup.json
+accounts/.temp*.json
+settings.local.json
+accounts/account-*.json
+accounts/current.txt
+accounts/last-rotate.ts
+accounts/rate-limit-status.json
+accounts/refresher.log
+accounts/rotate.log
+
+# Runtime e cache
+logs/
+cache/
+temp/
+sessions/
+session-logs/
+shell-snapshots/
+statsig/
+telemetry/
+paste-cache/
+chrome-debug-profiles/
+chrome-mcp-locks/
+chrome-mcp-profiles/
+backups/
+file-history/
+mcp-needs-auth-cache.json
+history.jsonl
+tasks/
+gsd-file-manifest.json
+
+# Dados pessoais
+projects/
+memory/
+data/
+
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Build artifacts grandes
+task-scheduler/public/assets/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# OS files
+.DS_Store
+Thumbs.db

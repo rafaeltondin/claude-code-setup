@@ -250,7 +250,7 @@ export function analyzeStructure(htmlFiles) {
 
     // Links aninhados
     console.log('[StructureAnalyzer] Verificando links aninhados');
-    const nestedLinksRegex = /<a[^>]*>(?:(?!<\/a>).|\n)*<a/gi;
+    const nestedLinksRegex = /<a(?:\s[^>]*)?>(?:(?!<\/a>).|\n)*<a(?:\s|>)/gi;
     const nestedLinkMatches = [...file.content.matchAll(nestedLinksRegex)];
     nestedLinkMatches.forEach(match => {
       const position = match.index;

@@ -137,27 +137,17 @@ node ~/.claude/task-scheduler/tools-cli.js html_validator input="[arquivo]" chec
 
 function launchRalph(projPath) {
   const projName = path.basename(projPath);
-  const isMac = process.platform === 'darwin';
-  const isWindows = process.platform === 'win32';
+  const winPath = projPath.replace(/\\/g, '/');
+  // Converter caminho Windows para WSL: C:\Users\sabola\... -> /mnt/c/Users/sabola/...
+  const wslPath = winPath.replace(/^([A-Za-z]):/, (_, d) => `/mnt/${d.toLowerCase()}`);
 
   console.log(`\n  Lançando Ralph em ~/projects/${projName}/`);
 
-  // macOS: executa ralph diretamente no terminal nativo (sem WSL)
-  if (isMac) {
-    const cmd = `cd "${projPath}" && ralph --reset-session && ralph --live`;
-    spawn('bash', ['-c', cmd], {
-      detached: true,
-      stdio: 'ignore',
-    }).unref();
-    console.log('  Ralph iniciado nativamente no macOS');
-    console.log(`  (Diretório: ${projPath})`);
-    return;
-  }
-
-  // Windows: preferir WSL Ubuntu (evita bug de DLL do Git Bash)
-  const winPath = projPath.replace(/\/g, '/');
-  // Converter caminho Windows para WSL: C:\Users\USER\... -> /mnt/c/Users/USER/...
-  const wslPath = winPath.replace(/^([A-Za-z]):/, (_, d) => `/mnt/${d.toLowerCase()}`);
+  // Preferir WSL Ubuntu (evita bug de DLL do Git Bash)
+  const wslCmd = [
+    'wsl', '-d', 'Ubuntu', 'bash', '-c',
+    `export PATH=/mnt/c/Users/sabola/.local/bin:$PATH && cd "${wslPath}" && HOME=/mnt/c/Users/sabola ralph --reset-session && HOME=/mnt/c/Users/sabola ralph --live`
+  ];
 
   // Verificar se WSL Ubuntu está disponível
   let wslAvailable = false;
@@ -168,7 +158,7 @@ function launchRalph(projPath) {
 
   if (wslAvailable) {
     // Usar PowerShell para abrir nova janela CMD com WSL (evita conflito de PATH do Git Bash)
-    const wslRalphCmd = `export PATH=/mnt/c/Users/USER/.local/bin:/usr/local/bin:/usr/bin:/bin && cd "${wslPath}" && HOME=/mnt/c/Users/USER ralph --reset-session && HOME=/mnt/c/Users/USER ralph --live`;
+    const wslRalphCmd = `export PATH=/mnt/c/Users/sabola/.local/bin:/usr/local/bin:/usr/bin:/bin && cd "${wslPath}" && HOME=/mnt/c/Users/sabola ralph --reset-session && HOME=/mnt/c/Users/sabola ralph --live`;
     const psCmd = `Start-Process cmd -ArgumentList '/k','wsl -d Ubuntu -e /bin/bash -c \\"${wslRalphCmd.replace(/"/g, '\\"')}\\"'`;
     spawn('powershell', ['-Command', psCmd], {
       detached: true,
@@ -179,7 +169,7 @@ function launchRalph(projPath) {
     console.log(`  (Sem bug de DLL do Git Bash)`);
   } else {
     // Fallback: Git Bash
-    const gitBash = 'C:\Program Files\Git\bin\bash.exe';
+    const gitBash = 'C:\\Program Files\\Git\\bin\\bash.exe';
     const cmd = `cd "${projPath}" && ralph --reset-session && ralph --live`;
     if (fs.existsSync(gitBash)) {
       spawn(gitBash, ['--login', '-c', cmd], {
@@ -190,10 +180,11 @@ function launchRalph(projPath) {
       console.log('  Git Bash aberto com Ralph --live');
     } else {
       console.log('  WSL e Git Bash não encontrados. Execute manualmente:');
-      console.log(`  wsl -d Ubuntu bash -c "cd ${wslPath} && HOME=/mnt/c/Users/USER ralph --live"`);
+      console.log(`  wsl -d Ubuntu bash -c "cd ${wslPath} && HOME=/mnt/c/Users/sabola ralph --live"`);
     }
   }
 }
+
 // ─── Main ──────────────────────────────────────────────────────────────────────
 const args = process.argv.slice(2);
 

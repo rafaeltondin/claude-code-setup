@@ -48,7 +48,7 @@ Checklist completo: `NEUROMARKETING-GATILHOS-MENTAIS-META-ADS-GUIA.md`
 
 1. **motion-gen (RECOMENDADO):** `node ~/.claude/tools/motion-gen/motion-gen.js <html> --quality turbo --output <mp4>`
 2. **capture-final.js (recaptura):** `node capture-final.js <html> --output <mp4>`
-3. **API remota:** `https://motion.YOUR-DOMAIN.com/api/generate-inline`
+3. **API remota:** `https://motion.rafaeltondin.com.br/api/generate-inline`
 
 **CRÍTICO:**
 - APAGAR MP3s antigos se motion-config tem textos diferentes: `rm [pasta]/n*.mp3`

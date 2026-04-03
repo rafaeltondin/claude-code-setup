@@ -90,7 +90,7 @@ Exemplos:
         type: 'object',
         properties: {
           pattern: { type: 'string', description: 'Texto ou regex a buscar. Ex: "TODO", "function handleClick", "api_key\\s*=.*"' },
-          path: { type: 'string', description: 'Diretório ou arquivo onde buscar. Ex: /home/user/Desktop/projeto ou ~/projeto' },
+          path: { type: 'string', description: 'Diretório ou arquivo onde buscar. Ex: C:/Users/sabola/Desktop/projeto' },
           recursive: { type: 'boolean', description: 'Buscar recursivamente em subpastas. Padrão: true' },
           fileFilter: { type: 'string', description: 'Filtrar por extensão. Ex: ".js", ".py", ".html". Se omitido, busca em todos os arquivos de texto.' },
           caseSensitive: { type: 'boolean', description: 'Diferencia maiúsculas/minúsculas. Padrão: false' },

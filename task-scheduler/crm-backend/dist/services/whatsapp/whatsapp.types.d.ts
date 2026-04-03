@@ -2,7 +2,7 @@
  * Tipos e interfaces para integração com a Evolution API (WhatsApp)
  */
 export interface EvolutionConfig {
-    /** URL base da Evolution API, ex: https://evolution.YOUR-DOMAIN.com */
+    /** URL base da Evolution API, ex: https://evolution.rafaeltondin.com.br */
     url: string;
     /** API Key global da Evolution API */
     apiKey: string;

@@ -19,6 +19,9 @@ import {
   ChevronRight,
   ChevronsLeft,
   ChevronsRight,
+  ChevronUp,
+  ChevronDown,
+  ChevronsUpDown,
 } from 'lucide-react';
 import {
   useTransactions,
@@ -68,6 +71,61 @@ const MONTHS = [
   'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
   'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro',
 ];
+
+// ─── HOOK DE SORTING ──────────────────────────────────────────────────────────
+
+type SortDir = 'asc' | 'desc' | null;
+
+function useTableSort<T>(data: T[], extractors: Record<string, (row: T) => string | number>) {
+  const [sortKey, setSortKey] = useState<string | null>(null);
+  const [sortDir, setSortDir] = useState<SortDir>(null);
+
+  const sorted = useMemo(() => {
+    if (!sortKey || !sortDir) return data;
+    const extract = extractors[sortKey];
+    if (!extract) return data;
+    return [...data].sort((a, b) => {
+      const av = extract(a);
+      const bv = extract(b);
+      if (typeof av === 'number' && typeof bv === 'number') {
+        return sortDir === 'asc' ? av - bv : bv - av;
+      }
+      const as = String(av).toLowerCase();
+      const bs = String(bv).toLowerCase();
+      return sortDir === 'asc' ? as.localeCompare(bs) : bs.localeCompare(as);
+    });
+  }, [data, sortKey, sortDir, extractors]);
+
+  const toggle = useCallback((key: string) => {
+    if (sortKey !== key) { setSortKey(key); setSortDir('asc'); }
+    else if (sortDir === 'asc') { setSortDir('desc'); }
+    else { setSortKey(null); setSortDir(null); }
+  }, [sortKey, sortDir]);
+
+  return { sorted, sortKey, sortDir, toggle };
+}
+
+function SortIcon({ active, dir }: { active: boolean; dir: SortDir }) {
+  if (!active) return <ChevronsUpDown size={12} className="text-[#6a6a7a]" />;
+  if (dir === 'asc') return <ChevronUp size={12} className="text-[#7c6aef]" />;
+  return <ChevronDown size={12} className="text-[#7c6aef]" />;
+}
+
+function SortableHeader({ label, colKey, sortKey, sortDir, onSort }: {
+  label: string; colKey: string; sortKey: string | null; sortDir: SortDir; onSort: (k: string) => void;
+}) {
+  return (
+    <th
+      className="text-left px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-[#6a6a7a] cursor-pointer select-none hover:text-[#9898aa] transition-colors"
+      onClick={() => onSort(colKey)}
+    >
+      <span className="inline-flex items-center gap-1">
+        {label}
+        <SortIcon active={sortKey === colKey} dir={sortKey === colKey ? sortDir : null} />
+      </span>
+    </th>
+  );
+}
 
 // ─── KPI CARD ─────────────────────────────────────────────────────────────────
 
@@ -644,7 +702,16 @@ function GoalsSection({ goals }: { goals: Goal[] }) {
 
 // ─── SEÇÃO INVESTIMENTOS ──────────────────────────────────────────────────────
 
+const INV_EXTRACTORS: Record<string, (row: Investment) => string | number> = {
+  name: (r) => r.name,
+  type: (r) => r.type,
+  amount: (r) => r.amount,
+  date: (r) => r.date ?? '',
+};
+
 function InvestmentsSection({ investments }: { investments: Investment[] }) {
+  const { sorted, sortKey, sortDir, toggle } = useTableSort(investments, INV_EXTRACTORS);
+
   if (investments.length === 0) {
     return (
       <div
@@ -656,6 +723,13 @@ function InvestmentsSection({ investments }: { investments: Investment[] }) {
     );
   }
 
+  const cols = [
+    { key: 'name', label: 'Nome' },
+    { key: 'type', label: 'Tipo' },
+    { key: 'amount', label: 'Valor' },
+    { key: 'date', label: 'Data' },
+  ];
+
   return (
     <div
       className="rounded-lg border border-[rgba(255,255,255,0.08)] overflow-hidden"
@@ -664,18 +738,13 @@ function InvestmentsSection({ investments }: { investments: Investment[] }) {
       <table className="w-full text-sm">
         <thead>
           <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-            {['Nome', 'Tipo', 'Valor', 'Data'].map((h) => (
-              <th
-                key={h}
-                className="text-left px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-[#6a6a7a]"
-              >
-                {h}
-              </th>
+            {cols.map((c) => (
+              <SortableHeader key={c.key} label={c.label} colKey={c.key} sortKey={sortKey} sortDir={sortDir} onSort={toggle} />
             ))}
           </tr>
         </thead>
         <tbody>
-          {investments.map((inv) => (
+          {sorted.map((inv) => (
             <tr
               key={inv.id}
               className="transition-colors hover:bg-[rgba(255,255,255,0.03)]"
@@ -727,6 +796,16 @@ export function Finance() {
 
   const transactions = txResult?.data ?? [];
   const pagination: PaginationInfo = txResult?.pagination ?? { page: 1, limit: ITEMS_PER_PAGE, total: 0, totalPages: 1 };
+
+  const txExtractors = useMemo<Record<string, (row: Transaction) => string | number>>(() => ({
+    description: (r) => r.description,
+    category: (r) => r.category?.name ?? '',
+    type: (r) => r.category?.type === 'income' ? 'receita' : 'despesa',
+    date: (r) => r.date ?? '',
+    status: (r) => r.paid ? 'pago' : 'pendente',
+    amount: (r) => r.amount,
+  }), []);
+  const { sorted: sortedTx, sortKey: txSortKey, sortDir: txSortDir, toggle: txToggleSort } = useTableSort(transactions, txExtractors);
 
   const deleteTx = useDeleteTransaction();
   const updateTx = useUpdateTransaction();
@@ -941,18 +1020,21 @@ export function Finance() {
                 <table className="w-full text-sm">
                   <thead>
                     <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-                      {['Descrição', 'Categoria', 'Data', 'Status', 'Valor', ''].map((h) => (
-                        <th
-                          key={h}
-                          className="text-left px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-[#6a6a7a]"
-                        >
-                          {h}
-                        </th>
+                      {[
+                        { key: 'description', label: 'Descrição' },
+                        { key: 'category', label: 'Categoria' },
+                        { key: 'type', label: 'Tipo' },
+                        { key: 'date', label: 'Data' },
+                        { key: 'status', label: 'Status' },
+                        { key: 'amount', label: 'Valor' },
+                      ].map((c) => (
+                        <SortableHeader key={c.key} label={c.label} colKey={c.key} sortKey={txSortKey} sortDir={txSortDir} onSort={txToggleSort} />
                       ))}
+                      <th className="text-left px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-[#6a6a7a]" />
                     </tr>
                   </thead>
                   <tbody>
-                    {transactions.map((tx) => {
+                    {sortedTx.map((tx) => {
                       const isIncome = tx.category?.type === 'income';
                       return (
                         <tr
@@ -981,6 +1063,17 @@ export function Finance() {
                             ) : (
                               <span className="text-xs text-[#6a6a7a]">—</span>
                             )}
+                          </td>
+                          <td className="px-4 py-3">
+                            <span
+                              className="px-2 py-0.5 rounded text-xs font-semibold"
+                              style={isIncome
+                                ? { background: '#22c55e18', color: '#22c55e' }
+                                : { background: '#ef444418', color: '#ef4444' }
+                              }
+                            >
+                              {isIncome ? 'Receita' : 'Despesa'}
+                            </span>
                           </td>
                           <td className="px-4 py-3 text-[#9898aa] text-xs whitespace-nowrap">
                             {formatDate(tx.date)}

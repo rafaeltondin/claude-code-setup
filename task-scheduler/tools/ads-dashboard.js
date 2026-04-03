@@ -1,13 +1,13 @@
 /**
  * Tool: ADS_DASHBOARD
  * Consulta dados do Ads Dashboard (Meta Ads + Google Ads)
- * API pública em https://ads.YOUR-USER.com.br/api/public/
+ * API pública em https://ads.rafaeltondin.com.br/api/public/
  */
 
 const https = require('https');
 const http = require('http');
 
-const ADS_API_BASE = 'https://ads.YOUR-USER.com.br';
+const ADS_API_BASE = 'https://ads.rafaeltondin.com.br';
 const ADS_API_KEY_NAME = 'ADS_DASHBOARD_API_KEY';
 const ADS_API_KEY_FALLBACK = 'ads-public-api-2026-riwerlabs';
 

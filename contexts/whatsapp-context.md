@@ -3,7 +3,7 @@
 ## Regras fundamentais
 
 - **Instância:** `cenora`
-- **Evolution API:** `https://evolution.YOUR-DOMAIN.com` (servidor CyberPanel remoto)
+- **Evolution API:** `https://evolution.rafaeltondin.com.br` (servidor CyberPanel remoto)
 - **API Key vault:** `EVOLUTION_API_KEY`
 - **Confirmar** com usuário ANTES de enviar qualquer mensagem
 - **Intervalo:** 30s entre mensagens

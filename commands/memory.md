@@ -33,7 +33,7 @@ Esta skill gerencia a memória persistente da conversa, permitindo manter contex
 Quando `/memory` é invocado, execute:
 
 ```bash
-node "~\.claude\conversation-memory\memory-cli.js" [comando] [argumentos]
+node "C:\Users\sabola\.claude\conversation-memory\memory-cli.js" [comando] [argumentos]
 ```
 
 ## Integração Automática

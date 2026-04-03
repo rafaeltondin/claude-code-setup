@@ -44,7 +44,7 @@ function readRotateLog() {
 const EMAILS = {
   '1': 'gaujalab@gmail.com',
   '2': 'tondinrafael@gmail.com',
-  '3': 'your-email@example.com',
+  '3': 'rafaeltondinnutricionista@gmail.com',
   '4': 'nortmarketingdigital@gmail.com',
 };
 

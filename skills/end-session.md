@@ -100,16 +100,16 @@ Monte o JSON seguindo exatamente este formato:
 Salve o JSON em um arquivo temporário e execute:
 
 ```bash
-# Para C:\Users\USER\.claude (projeto atual padrão):
-node "C:\Users\USER\.claude\session-analyzer\session-analyzer.js" --file "C:\Users\USER\.claude\session-analyzer\temp-analysis.json"
+# Para C:\Users\sabola\.claude (projeto atual padrão):
+node "C:\Users\sabola\.claude\session-analyzer\session-analyzer.js" --file "C:\Users\sabola\.claude\session-analyzer\temp-analysis.json"
 
 # Para Desktop\.claude (se a sessão for deste projeto):
-node "C:\Users\USER\Desktop\.claude\session-analyzer\session-analyzer.js" --file "C:\Users\USER\Desktop\.claude\session-analyzer\temp-analysis.json"
+node "C:\Users\sabola\Desktop\.claude\session-analyzer\session-analyzer.js" --file "C:\Users\sabola\Desktop\.claude\session-analyzer\temp-analysis.json"
 ```
 
 Ou via pipe:
 ```bash
-echo '<JSON_AQUI>' | node "C:\Users\USER\.claude\session-analyzer\session-analyzer.js"
+echo '<JSON_AQUI>' | node "C:\Users\sabola\.claude\session-analyzer\session-analyzer.js"
 ```
 
 ### PASSO 4 — Verificar Resultado

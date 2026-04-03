@@ -170,7 +170,7 @@ const handlers = {
       if (!number || !text) return 'Erro: number e text são obrigatórios';
 
       // Evolution API remota (servidor CyberPanel)
-      const EVOLUTION_URL = 'https://evolution.YOUR-USER.com.br';
+      const EVOLUTION_URL = 'https://evolution.rafaeltondin.com.br';
       const INSTANCE = 'cenora';
 
       // Obter API key do vault
@@ -430,7 +430,7 @@ const handlers = {
 
       // Obter credenciais do vault
       let apiKey = '';
-      const EVOLUTION_URL = 'https://evolution.YOUR-USER.com.br';
+      const EVOLUTION_URL = 'https://evolution.rafaeltondin.com.br';
       const INSTANCE = 'cenora';
 
       try {
@@ -730,7 +730,7 @@ const handlers = {
 
       // 3. Converter para base64 e enviar via Evolution API como áudio
       const audioBase64 = audioBuffer.toString('base64');
-      const EVOLUTION_URL = 'https://evolution.YOUR-USER.com.br';
+      const EVOLUTION_URL = 'https://evolution.rafaeltondin.com.br';
       const INSTANCE = 'cenora';
 
       const numStr = String(number);

@@ -737,7 +737,7 @@ server.tool(
   {},
   async () => {
     try {
-      const memoryIndex = readFileSync(join(CLAUDE_HOME, "projects", "C--Users-USER", "memory", "MEMORY.md"), "utf-8");
+      const memoryIndex = readFileSync(join(CLAUDE_HOME, "projects", "C--Users-sabola", "memory", "MEMORY.md"), "utf-8");
       return { content: [{ type: "text", text: `# MEMÓRIA PERSISTENTE\n\n${memoryIndex}` }] };
     } catch (e) {
       try {
@@ -759,7 +759,7 @@ server.tool(
   async ({ arquivo }) => {
     try {
       const paths = [
-        join(CLAUDE_HOME, "projects", "C--Users-USER", "memory", arquivo),
+        join(CLAUDE_HOME, "projects", "C--Users-sabola", "memory", arquivo),
         join(CLAUDE_HOME, "memory", arquivo),
       ];
       for (const p of paths) {

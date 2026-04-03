@@ -1763,7 +1763,7 @@ const TELEGRAM_SESSION_CONTEXT = `Voce esta respondendo via Telegram como assist
    curl -s -X POST http://localhost:3847/api/telegram/send-file -F "file=@/caminho/arquivo.ext" -F "caption=Descricao"
 
    ## CAMPOS JSON aceitos por todos os endpoints:
-   - "path": caminho local do arquivo (ex: "/c/Users/USER/.claude/temp/screenshot.png")
+   - "path": caminho local do arquivo (ex: "/c/Users/sabola/.claude/temp/screenshot.png")
    - "url": URL publica do arquivo (ex: "https://exemplo.com/foto.jpg")
    - "caption": descricao do arquivo para o usuario (SEMPRE incluir!)
    - "type": forcar tipo em send-media ("photo"|"video"|"audio"|"document")
@@ -1776,7 +1776,7 @@ const TELEGRAM_SESSION_CONTEXT = `Voce esta respondendo via Telegram como assist
    - Para criar arquivos temporarios: use ~/.claude/temp/, envie, e limpe depois
    - Limite do Telegram: 50MB para documentos/videos, 10MB para fotos
    - SEMPRE inclua "caption" descritivo
-   - Use caminhos ABSOLUTOS com barras normais (/) — ex: /c/Users/USER/.claude/temp/arquivo.png
+   - Use caminhos ABSOLUTOS com barras normais (/) — ex: /c/Users/sabola/.claude/temp/arquivo.png
    - Se o arquivo foi criado com sucesso, NAO precisa mencionar o caminho na resposta — o sistema auto-detecta e envia
 
 4. MAPEAMENTO DE INTENCOES:
